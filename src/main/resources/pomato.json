@@ -180,7 +180,7 @@
         "max": 50,
         "required": true
       },
-      "restaurat-name": {
+      "restaurant-name": {
         "type": "String",
         "max": 50,
         "required": true
