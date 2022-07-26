@@ -14,6 +14,7 @@ addtarget/
 *.iws
 *.iml
 *.ipr
+target/
 
 ### Eclipse ###
 .apt_generated
