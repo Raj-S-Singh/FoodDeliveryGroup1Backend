@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f35a892e-673c-4310-ae48-2a0fb8c78956" name="Changes" comment="">
 <<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="c1a13b04-ffba-43f0-8186-e20ec0ee7574" name="Changes" comment="">
 =======
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
->>>>>>> ada2ce0b3366176192864aff7e87c04f60390c90
+    <list default="true" id="92ac31d2-d856-49d7-9744-8364b83bf819" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -17,77 +17,57 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeStyleSettingsInfer">
-    <option name="done" value="true" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
+<<<<<<< HEAD
+=======
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectCodeStyleSettingsMigration">
-    <option name="version" value="2" />
-  </component>
-  <component name="ProjectId" id="2CTBgTTRyho6Uu3OdAwNR6Sw0xd" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
 <<<<<<< HEAD
+  <component name="RunManager">
+    <configuration name="HelloWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HelloWorld" />
+      <module name="FoodDeliveryGroup1Backend" />
+=======
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "nodejs_package_manager_path": "npm"
-=======
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/utkarsh.saxena2/Desktop/FoodDeliveryGroup1Backend&quot;
->>>>>>> ada2ce0b3366176192864aff7e87c04f60390c90
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "6cf85db160bef5f38a116f18697103a4"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="FoodDeliveryGroup1Backend" />
+    <configuration name="HelloWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HelloWorld" />
+      <module name="FoodDeliveryBackend" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="FoodDeliveryGroup1Backend" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.HelloWorld" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="f35a892e-673c-4310-ae48-2a0fb8c78956" name="Changes" comment="" />
-      <created>1658816808443</created>
+<<<<<<< HEAD
+      <changelist id="c1a13b04-ffba-43f0-8186-e20ec0ee7574" name="Changes" comment="" />
+      <created>1658823703983</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1658816808443</updated>
-      <workItem from="1658816811582" duration="838000" />
+      <updated>1658823703983</updated>
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -99,5 +79,18 @@
         </entry>
       </map>
     </option>
+=======
+      <changelist id="92ac31d2-d856-49d7-9744-8364b83bf819" name="Changes" comment="" />
+      <created>1658826860007</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1658826860007</updated>
+      <workItem from="1658826865703" duration="536000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
   </component>
 </project>
