@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="c1a13b04-ffba-43f0-8186-e20ec0ee7574" name="Changes" comment="">
+=======
+    <list default="true" id="92ac31d2-d856-49d7-9744-8364b83bf819" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -12,14 +17,36 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
+<<<<<<< HEAD
   <component name="RunManager">
     <configuration name="HelloWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="HelloWorld" />
       <module name="FoodDeliveryGroup1Backend" />
+=======
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "6cf85db160bef5f38a116f18697103a4"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="HelloWorld" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="HelloWorld" />
+      <module name="FoodDeliveryBackend" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -33,6 +60,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
+<<<<<<< HEAD
       <changelist id="c1a13b04-ffba-43f0-8186-e20ec0ee7574" name="Changes" comment="" />
       <created>1658823703983</created>
       <option name="number" value="Default" />
@@ -51,5 +79,18 @@
         </entry>
       </map>
     </option>
+=======
+      <changelist id="92ac31d2-d856-49d7-9744-8364b83bf819" name="Changes" comment="" />
+      <created>1658826860007</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1658826860007</updated>
+      <workItem from="1658826865703" duration="536000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+>>>>>>> 1915810a3d39cd2265894c8269f198daea58c037
   </component>
 </project>
