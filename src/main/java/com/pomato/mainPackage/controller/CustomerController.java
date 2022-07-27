@@ -45,13 +45,17 @@ public class CustomerController {
     }
     
     @GetMapping(value="/restaurants",produces = "application/json")
-    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader(name = "jwtToken") String jwtToken){
-        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(jwtToken);
-        if(allRestaurant==null){
-            return new ResponseEntity<Collection<Restaurant>>(Collections.emptyList(),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<GetRestaurantResponse> getRestaurants(@RequestHeader(name = "jwtToken") String jwtToken){
+        return customerService.getAllRestaurant(jwtToken);
+    }
+    @GetMapping(value="/restaurants/getitems/{restaurantId}",produces="application/json")
+    public ResponseEntity<ViewMenuResponse> viewMenu(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable("restaurantId") int restaurantId){
+        ViewMenuResponse viewMenuResponse=customerService.viewRestaurantMenu(jwtToken,restaurantId);
+        if (viewMenuResponse.isStatus()){
+            return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.OK);
         }
-        else{
-            return new ResponseEntity<Collection<Restaurant>>(allRestaurant,HttpStatus.OK);
+        else {
+            return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping(value = "/viewOrdersCustomer/{userId}",produces = "application/json")
