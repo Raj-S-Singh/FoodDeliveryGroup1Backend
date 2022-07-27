@@ -17,28 +17,29 @@ public class ManagerService {
 
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     RestaurantRepository restaurantRepository;
 
     @Autowired
     MenuRepository menuRepository;
 
-    public ManagerSignupResponse registerManager(ManagerSignupRequest managerSignupRequest){
+
+    public ManagerSignupResponse registerManager(ManagerSignupRequest managerSignupRequest) {
 
         User newUser = new User();
         Restaurant restaurant = new Restaurant();
         User user = userRepository.findByEmail(managerSignupRequest.getEmail());
         ManagerSignupResponse managerSignupResponse = new ManagerSignupResponse();
 
-        if(user != null){
+        if (user != null) {
             managerSignupResponse.setStatus(false);
             managerSignupResponse.setMessage("email already exist");
 
             return managerSignupResponse;
-        }
-        else{
+        } else {
             String salt = BCrypt.gensalt();
-            String hashedPassword = BCrypt.hashpw(managerSignupRequest.getPassword()+pepper,salt);
+            String hashedPassword = BCrypt.hashpw(managerSignupRequest.getPassword() + pepper, salt);
             newUser.setPassword(hashedPassword);
             newUser.setSalt(salt);
             newUser.setName(managerSignupRequest.getName());
@@ -53,7 +54,7 @@ public class ManagerService {
             restaurant.setRestaurantName(managerSignupRequest.getRestaurantName());
 
             User createdUser = userRepository.save(newUser);
-            if(createdUser == null){
+            if (createdUser == null) {
                 managerSignupResponse.setStatus(false);
                 managerSignupResponse.setMessage("User object cannot be created");
                 return managerSignupResponse;
@@ -61,7 +62,7 @@ public class ManagerService {
             restaurant.setUserId(createdUser.getUserId());
             Restaurant createdRestaurant = restaurantRepository.save(restaurant);
 
-            if(createdRestaurant == null){
+            if (createdRestaurant == null) {
                 managerSignupResponse.setStatus(false);
                 managerSignupResponse.setMessage("Restaurant Object cannot be created");
                 return managerSignupResponse;
@@ -83,11 +84,67 @@ public class ManagerService {
         }
     }
 
-    public UpdateItemResponse update(UpdateItemRequest item, String jwtToken){
+    public AddItemResponse addItemToRestaurant(AddItemRequest request, int restaurantId, String jwtToken) {
+        Menu currentItem = menuRepository.findByName(request.getName());
+        Menu managerItem = new Menu();
+        AddItemResponse response = new AddItemResponse();
+        if (jwtToken.equals(userRepository.findByUserId(request.getUserId()).getJwtToken()) == false) {
+            response.setStatus(false);
+            response.setMessage("jwtToken Invalid.");
+        } else if (currentItem != null) {
+            response.setStatus(false);
+            response.setMessage("Item already exists in the database");
+        } else {
+            managerItem.setRestaurantId(restaurantId);
+            managerItem.setItemImage(request.getItemImage());
+            managerItem.setDescription(request.getDescription());
+            managerItem.setItemImage(request.getItemImage());
+            managerItem.setCuisineType(request.getCuisineType());
+            managerItem.setPrice(request.getPrice());
+            managerItem.setName(request.getName());
+            managerItem = menuRepository.save(managerItem);
 
+            response.setStatus(true);
+            response.setMessage("Item added successfully.");
+            response.setItemId(managerItem.getItemId());
+            response.setRestaurantId(managerItem.getRestaurantId());
+            response.setCuisineType(managerItem.getCuisineType());
+            response.setName(managerItem.getName());
+            response.setDescription(managerItem.getDescription());
+            response.setPrice(managerItem.getPrice());
+            response.setItemImage(managerItem.getItemImage());
+        }
+        return response;
+    }
+
+
+    public DeleteItemResponse deleteItem(int itemId, int userId, String jwtToken) {
+        Menu newItem = menuRepository.findByItemId(itemId);
+        DeleteItemResponse deleteItemResponse = new DeleteItemResponse();
+
+        if (jwtToken.equals(userRepository.findByUserId(userId).getJwtToken()) == false) {
+            deleteItemResponse.setStatus(false);
+            deleteItemResponse.setMessage("jwtToken invalid");
+
+            return deleteItemResponse;
+        }
+
+        if (newItem == null) {
+            deleteItemResponse.setStatus(false);
+            deleteItemResponse.setMessage("Item doesn't exist.");
+        } else {
+            menuRepository.deleteById(itemId);
+            deleteItemResponse.setStatus(true);
+            deleteItemResponse.setMessage("Item deleted from menu");
+        }
+
+        return deleteItemResponse;
+    }
+
+    public UpdateItemResponse update(UpdateItemRequest item, String jwtToken) {
         UpdateItemResponse updateItemResponse = new UpdateItemResponse();
 
-        if(jwtToken.equals((userRepository.findByUserId(item.getUserId())).getJwtToken())==false){
+        if (jwtToken.equals((userRepository.findByUserId(item.getUserId())).getJwtToken()) == false) {
             updateItemResponse.setStatus(false);
             updateItemResponse.setMessage("jwtToken invalid");
 
@@ -95,12 +152,11 @@ public class ManagerService {
         }
 
         Menu curItem = menuRepository.findByItemId(item.getItemId());
-        if(curItem == null){
+        if (curItem == null) {
             updateItemResponse.setStatus(false);
             updateItemResponse.setMessage("item with given id not found");
             return updateItemResponse;
-        }
-        else{
+        } else {
             Menu updatedItem = new Menu();
             updatedItem.setItemId(item.getItemId());
             updatedItem.setItemImage(item.getItemImage());
