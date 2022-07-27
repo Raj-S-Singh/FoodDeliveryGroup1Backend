@@ -3,6 +3,7 @@ package com.pomato.mainPackage.controller;
 import com.pomato.mainPackage.model.CustomerSignupResponse;
 import com.pomato.mainPackage.model.PlaceOrder;
 import com.pomato.mainPackage.model.PlaceOrderResponse;
+import com.pomato.mainPackage.model.Restaurant;
 import com.pomato.mainPackage.model.User;
 import com.pomato.mainPackage.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.Collections;
 
 @RestController
 public class CustomerController {
@@ -39,6 +44,17 @@ public class CustomerController {
         }
         else {
             return new ResponseEntity<>(placeOrderResponse,HttpStatus.BAD_REQUEST);
+        }
+    }
+    
+    @GetMapping(value="/restaurants",produces = "application/json")
+    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader String token){
+        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(token);
+        if(allRestaurant==null){
+            return new ResponseEntity<Collection<Restaurant>>(Collections.emptyList(),HttpStatus.BAD_REQUEST);
+        }
+        else{
+            return new ResponseEntity<Collection<Restaurant>>(allRestaurant,HttpStatus.OK);
         }
     }
 }

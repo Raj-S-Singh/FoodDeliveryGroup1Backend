@@ -3,6 +3,11 @@ package com.pomato.mainPackage.services;
 import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.repository.FoodOrderRepository;
 import com.pomato.mainPackage.repository.PaymentRepository;
+import com.pomato.mainPackage.model.AddItemResponse;
+import com.pomato.mainPackage.model.CustomerSignupResponse;
+import com.pomato.mainPackage.model.Restaurant;
+import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collection;
 
 @Service
 public class CustomerService {
@@ -21,6 +27,9 @@ public class CustomerService {
     FoodOrderRepository foodOrderRepository;
     @Autowired
     PaymentRepository paymentRepository;
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
     @Value("${pepper}")
     String pepper;
 
@@ -95,6 +104,16 @@ public class CustomerService {
             placeOrderResponse.setMessage("Order Placed and Payment Successful");
             placeOrderResponse.setStatus(true);
             return placeOrderResponse;
+        }
+    }
+    
+    public Collection<Restaurant> getAllRestaurant(String token){
+        User user=userRepository.findByJwtToken(token);
+        if(user!=null && user.getRole().equals("Customer")){
+            return restaurantRepository.getAllRestaurants();
+        }
+        else{
+            return null;
         }
     }
 }
