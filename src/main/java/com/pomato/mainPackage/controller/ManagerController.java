@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 public class ManagerController {
 
     @Autowired
@@ -19,10 +20,10 @@ public class ManagerController {
         ManagerSignupResponse managerSignupResponse = managerService.registerManager(managerSignupRequest);
 
         if(managerSignupResponse.isStatus()){
-            return new ResponseEntity<>(managerSignupResponse, HttpStatus.OK );
+            return new ResponseEntity<ManagerSignupResponse>(managerSignupResponse, HttpStatus.OK );
         }
         else{
-            return new ResponseEntity<>(managerSignupResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ManagerSignupResponse>(managerSignupResponse, HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -37,5 +38,23 @@ public class ManagerController {
         else{
             return new ResponseEntity<>(deleteItemResponse, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping(value = "/updateitem/{restaurantId}/{itemId}", produces = "application/json")
+    public ResponseEntity<UpdateItemResponse> updateItem(@RequestBody UpdateItemRequest item, @PathVariable int restaurantID,
+                                                         @PathVariable int itemId, @RequestHeader("jwtToken") String jwtToken){
+
+        item.setItemId(itemId);
+        item.setRestaurantId(restaurantID);
+        UpdateItemResponse updateItemResponse = managerService.update(item, jwtToken);
+
+        if(updateItemResponse.isStatus()){
+            return new ResponseEntity<UpdateItemResponse>(updateItemResponse, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<UpdateItemResponse>(updateItemResponse, HttpStatus.BAD_REQUEST);
+        }
+
+
     }
 }
