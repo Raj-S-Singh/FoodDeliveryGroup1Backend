@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 @RestController
+@CrossOrigin
 public class CustomerController {
 
     @Autowired
