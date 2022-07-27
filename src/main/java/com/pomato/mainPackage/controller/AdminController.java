@@ -1,10 +1,8 @@
 package com.pomato.mainPackage.controller;
 
-import com.pomato.mainPackage.model.AdminLoginResponse;
-import com.pomato.mainPackage.model.LoginRequest;
-import com.pomato.mainPackage.model.Restaurant;
-import com.pomato.mainPackage.model.RestaurantDeleteResponse;
+import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.repository.RestaurantRepository;
+import com.pomato.mainPackage.repository.UserRepository;
 import com.pomato.mainPackage.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,19 +24,21 @@ public class AdminController {
     }
     @Autowired
     RestaurantRepository restaurantRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @DeleteMapping(value = "/restaurant/{restaurantId}")
-    public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@PathVariable int id){
-        RestaurantDeleteResponse restaurantDeleteResponse = new RestaurantDeleteResponse();
-        Restaurant restaurant = restaurantRepository.findByRestaurantId(id);
-        if( restaurant == null){
-            restaurantDeleteResponse.setMessage("Restaurant not found");
-            restaurantDeleteResponse.setStatus(false);
-            return new ResponseEntity<RestaurantDeleteResponse>(restaurantDeleteResponse,HttpStatus.BAD_REQUEST);
+    public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@PathVariable int id, @RequestHeader(name = "jwtToken") String jwtToken), @RequestBody DeleteRestaurantUserId deleteRestaurantUserId)
+
+    {
+        RestaurantDeleteResponse restaurantDeleteResponse = deleteRestaurant( int id, String jwtToken,
+        int deleteRestaurantUserId.getId());
+        if(restaurantDeleteResponse.isStatus()){
+            return new ResponseEntity<>(restaurantDeleteResponse, HttpStatus.OK);
         }
-        restaurantRepository.deleteById(id);
-        restaurantDeleteResponse.setStatus(true);
-        restaurantDeleteResponse.setMessage("Successfully deleted");
-        return new ResponseEntity<RestaurantDeleteResponse>(restaurantDeleteResponse,HttpStatus.OK);
+        else
+            return new ResponseEntity<>(restaurantDeleteResponse,HttpStatus.BAD_REQUEST);
     }
+    }
+
+
 }

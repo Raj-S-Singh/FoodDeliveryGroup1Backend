@@ -1,11 +1,12 @@
 package com.pomato.mainPackage.services;
 
-import com.pomato.mainPackage.model.AdminLoginResponse;
-import com.pomato.mainPackage.model.LoginRequest;
-import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.model.*;
+import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,28 @@ public class AdminService {
             adminLoginResponse.setStatus(false);
         }
         return adminLoginResponse;
+    }
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
+    public RestaurantDeleteResponse deleteRestaurant(int id, String jwtToken, int userid){
+        RestaurantDeleteResponse restaurantDeleteResponse = new RestaurantDeleteResponse();
+        if (jwtToken.equals((userRepository.findByUserId(userid)).getJwdToken())==false){
+            restaurantDeleteResponse.setMessage("Sorry not allowed to delete restaurant");
+            restaurantDeleteResponse.setStatus(false);
+            return restaurantDeleteResponse;
+        }
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(id);
+        if( restaurant == null){
+            restaurantDeleteResponse.setMessage("Restaurant not found");
+            restaurantDeleteResponse.setStatus(false);
+            return restaurantDeleteResponse;
+        }
+        restaurantRepository.deleteById(id);
+        restaurantDeleteResponse.setStatus(true);
+        restaurantDeleteResponse.setMessage("Successfully deleted");
+        return restaurantDeleteResponse;
+    }
+
     }
 }
