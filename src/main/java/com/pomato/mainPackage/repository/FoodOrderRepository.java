@@ -4,5 +4,5 @@ import com.pomato.mainPackage.model.FoodOrders;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FoodOrderRepository extends JpaRepository<FoodOrders,Integer> {
-    FoodOrders findByOrderId();
+    FoodOrders findByOrderId(int orderId);
 }
