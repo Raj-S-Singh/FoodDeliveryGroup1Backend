@@ -1,14 +1,11 @@
 package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.*;
-import com.pomato.mainPackage.repository.FoodOrderRepository;
-import com.pomato.mainPackage.repository.PaymentRepository;
+import com.pomato.mainPackage.repository.*;
 import com.pomato.mainPackage.model.AddItemResponse;
 import com.pomato.mainPackage.model.CustomerSignupResponse;
 import com.pomato.mainPackage.model.Restaurant;
 import com.pomato.mainPackage.model.User;
-import com.pomato.mainPackage.repository.RestaurantRepository;
-import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -32,6 +29,8 @@ public class CustomerService {
     PaymentRepository paymentRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    MenuRepository menuRepository;
 
     @Value("${pepper}")
     String pepper;
@@ -123,5 +122,20 @@ public class CustomerService {
             getRestaurantResponse.setMessage("JWT Token Invalid");
             return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.BAD_REQUEST);
         }
+    }
+    public ViewMenuResponse viewRestaurantMenu(String jwtToken,int restaurantId){
+        ViewMenuResponse viewMenuResponse=new ViewMenuResponse();
+        User user=userRepository.findByJwtToken(jwtToken);
+        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+            viewMenuResponse.setStatus(true);
+            viewMenuResponse.setMessage("Successfully Executed");
+            viewMenuResponse.setItems(menuRepository.findRestaurantMenu(restaurantId));
+        }
+        else{
+            viewMenuResponse.setStatus(false);
+            viewMenuResponse.setMessage("Invalid JWT Token");
+            viewMenuResponse.setItems(Collections.emptyList());
+        }
+        return viewMenuResponse;
     }
 }
