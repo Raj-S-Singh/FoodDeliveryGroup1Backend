@@ -14,7 +14,6 @@ addtarget/
 *.ipr
 target/
 
-src/main/resources/application.properties
 
 
 ### Eclipse ###
