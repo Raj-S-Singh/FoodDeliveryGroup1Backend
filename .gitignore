@@ -14,6 +14,9 @@ addtarget/
 *.ipr
 target/
 
+src/main/resources
+
+
 ### Eclipse ###
 .apt_generated
 .classpath
