@@ -1,6 +1,6 @@
 package com.pomato.mainPackage.controller;
 
-public class UserController {
+public class CustomerController {
 
     private void Test2(){
         System.out.println("Test function 2");}

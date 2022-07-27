@@ -8,9 +8,25 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int restaurantId;
     private int userId;
-    private String address;
-    private String name;
+    private String restaurantAddress;
+    private String restaurantName;
     private String restaurantImage;
+
+    public String getRestaurantAddress() {
+        return restaurantAddress;
+    }
+
+    public void setRestaurantAddress(String restaurantAddress) {
+        this.restaurantAddress = restaurantAddress;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
+    }
 
     public int getRestaurantId() {
         return restaurantId;
@@ -28,21 +44,6 @@ public class Restaurant {
         this.userId = userId;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getRestaurantImage() {
         return restaurantImage;
