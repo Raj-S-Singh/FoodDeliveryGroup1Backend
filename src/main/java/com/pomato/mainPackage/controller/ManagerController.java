@@ -1,14 +1,11 @@
 package com.pomato.mainPackage.controller;
 
-import com.pomato.mainPackage.model.ManagerSignupRequest;
-import com.pomato.mainPackage.model.ManagerSignupResponse;
+import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.services.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class ManagerController {
@@ -27,6 +24,15 @@ public class ManagerController {
         else{
             return new ResponseEntity<>(managerSignupResponse, HttpStatus.BAD_REQUEST);
         }
+    }
 
+    @PostMapping(value="/addItem/{restaurantId}",consumes = "application/json",produces="application/json")
+    public ResponseEntity<AddItemResponse> addItemToRestaurant(@PathVariable int restaurantId, @RequestHeader(name="jwtToken") String jwtToken,@RequestBody AddItemRequest addItemRequest){
+        AddItemResponse addItemResponse = managerService.addItemToRestaurant(addItemRequest,restaurantId,jwtToken);
+
+        if(addItemResponse.getStatus()){
+            return new ResponseEntity<AddItemResponse>(addItemResponse,HttpStatus.OK);
+        }
+        return new ResponseEntity<AddItemResponse>(addItemResponse,HttpStatus.BAD_REQUEST);
     }
 }
