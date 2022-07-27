@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 @RestController
 public class CustomerController {
@@ -38,12 +39,14 @@ public class CustomerController {
         }
     }
     @GetMapping (value="/restaurants",produces = "application/json")
-    public ResponseEntity<Collection<Restaurant>> getRestaurants(){
-        return new ResponseEntity<Collection<Restaurant>>(restaurantRepository.getAllRestaurants(),HttpStatus.OK);
+    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader String token){
+        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(token);
+        if(allRestaurant==null){
+            return new ResponseEntity<Collection<Restaurant>>(Collections.emptyList(),HttpStatus.BAD_REQUEST);
+        }
+        else{
+            return new ResponseEntity<Collection<Restaurant>>(allRestaurant,HttpStatus.OK);
+        }
     }
 
-    @GetMapping(value = "/restaurants/getItems/{restaurantId}", produces = "application/json")
-    public ResponseEntity<Collection<Menu>>  restaurantItems(@PathVariable int restaurantId) {
-        return new ResponseEntity<Collection<Menu>>(menuRepository.findRestaurantMenu(restaurantId), HttpStatus.OK);
-    }
 }
