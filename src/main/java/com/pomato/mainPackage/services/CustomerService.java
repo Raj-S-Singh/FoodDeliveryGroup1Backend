@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -115,5 +116,20 @@ public class CustomerService {
         else{
             return null;
         }
+    }
+
+    public ViewOrderCustomerResponse viewOrders(String jwtToken, int userId) {
+        ViewOrderCustomerResponse viewOrderCustomerResponse=new ViewOrderCustomerResponse();
+        User user=userRepository.findByUserId(userId);
+        if (user.getJwtToken().equals(jwtToken)==false){
+            viewOrderCustomerResponse.setMessage("jwtToken invalid");
+            viewOrderCustomerResponse.setStatus(false);
+            return viewOrderCustomerResponse;
+        }
+        List<FoodOrders> ordersList=foodOrderRepository.getAllByUserId(userId);
+        viewOrderCustomerResponse.setMessage("Fetched Orders");
+        viewOrderCustomerResponse.setStatus(true);
+        viewOrderCustomerResponse.setFoodOrders(ordersList);
+        return viewOrderCustomerResponse;
     }
 }
