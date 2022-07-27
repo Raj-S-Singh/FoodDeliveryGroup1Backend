@@ -17,6 +17,16 @@ public class FoodOrders {
     private String listOfItems;
     private String orderStatus;
 
+    private String timeStamp;
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     public int getOrderId() {
         return orderId;
     }
