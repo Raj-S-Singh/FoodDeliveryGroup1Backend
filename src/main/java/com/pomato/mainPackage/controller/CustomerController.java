@@ -22,9 +22,9 @@ public class CustomerController {
         CustomerSignupResponse customerSignupResponse = customerService.register(user);
 
         if(customerSignupResponse.isStatus()){
-            return new ResponseEntity<CustomerSignupResponse>(customerSignupResponse, HttpStatus.OK);
+            return new ResponseEntity<>(customerSignupResponse, HttpStatus.OK);
         }else{
-            return new ResponseEntity<CustomerSignupResponse>(customerSignupResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(customerSignupResponse, HttpStatus.BAD_REQUEST);
         }
     }
 }

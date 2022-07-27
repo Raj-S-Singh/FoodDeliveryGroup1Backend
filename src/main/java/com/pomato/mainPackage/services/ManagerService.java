@@ -1,9 +1,7 @@
 package com.pomato.mainPackage.services;
 
-import com.pomato.mainPackage.model.ManagerSignupRequest;
-import com.pomato.mainPackage.model.ManagerSignupResponse;
-import com.pomato.mainPackage.model.Restaurant;
-import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.model.*;
+import com.pomato.mainPackage.repository.MenuRepository;
 import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,8 @@ public class ManagerService {
     UserRepository userRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    MenuRepository menuRepository;
 
     public ManagerSignupResponse registerManager(ManagerSignupRequest managerSignupRequest){
 
@@ -68,5 +68,30 @@ public class ManagerService {
 
             return managerSignupResponse;
         }
+    }
+
+    public DeleteItemResponse deleteItem(int itemId, int userId, String jwtToken){
+
+        Menu newItem = menuRepository.findByItemId(itemId);
+        DeleteItemResponse deleteItemResponse = new DeleteItemResponse();
+
+        if(jwtToken.equals(userRepository.findByUserId(userId).getJwtToken()) == false){
+            deleteItemResponse.setStatus(false);
+            deleteItemResponse.setMessage("jwtToken invalid");
+
+            return deleteItemResponse;
+        }
+
+        if(newItem == null){
+            deleteItemResponse.setStatus(false);
+            deleteItemResponse.setMessage("Item doesn't exist.");
+        }
+        else{
+            menuRepository.deleteById(itemId);
+            deleteItemResponse.setStatus(true);
+            deleteItemResponse.setMessage("Item deleted from menu");
+        }
+
+        return deleteItemResponse;
     }
 }
