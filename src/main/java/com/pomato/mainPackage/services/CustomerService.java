@@ -1,18 +1,24 @@
 package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.CustomerSignupResponse;
+import com.pomato.mainPackage.model.Restaurant;
 import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 @Service
 public class CustomerService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RestaurantRepository restaurantRepository;
 
     @Value("${pepper}")
     String pepper;
@@ -47,5 +53,14 @@ public class CustomerService {
             customerSignupResponse.setStatus(true);
         }
         return customerSignupResponse;
+    }
+    public Collection<Restaurant> getAllRestaurant(String token){
+        User user=userRepository.findByJwtToken(token);
+        if(user!=null && user.getRole().equals("Customer")){
+            return restaurantRepository.getAllRestaurants();
+        }
+        else{
+            return null;
+        }
     }
 }
