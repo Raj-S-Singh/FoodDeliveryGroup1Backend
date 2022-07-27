@@ -1,10 +1,11 @@
 package com.pomato.mainPackage.model;
 
 import java.util.Collection;
+import java.util.List;
 
 public class GetRestaurantResponse {
     String message;
-    Collection<Restaurant> allRestaurant;
+    List<Restaurant> allRestaurant;
 
     public String getMessage() {
         return message;
@@ -14,11 +15,11 @@ public class GetRestaurantResponse {
         this.message = message;
     }
 
-    public Collection<Restaurant> getAllRestaurant() {
+    public List<Restaurant> getAllRestaurant() {
         return allRestaurant;
     }
 
-    public void setAllRestaurant(Collection<Restaurant> allRestaurant) {
+    public void setAllRestaurant(List<Restaurant> allRestaurant) {
         this.allRestaurant = allRestaurant;
     }
 }
