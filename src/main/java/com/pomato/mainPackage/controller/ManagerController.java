@@ -29,11 +29,11 @@ public class ManagerController {
     }
 
     @PutMapping(value = "/updateitem/{restaurantId}/{itemId}", produces = "application/json")
-    public ResponseEntity<UpdateItemResponse> updateItem(@RequestBody UpdateItemRequest item, @PathVariable int restaurantID,
-                                                         @PathVariable int itemId, @RequestHeader("jwtToken") String jwtToken){
+    public ResponseEntity<UpdateItemResponse> updateItem(@RequestBody UpdateItemRequest item, @PathVariable int restaurantId,
+                                                         @PathVariable int itemId, @RequestHeader(name="jwtToken") String jwtToken){
 
         item.setItemId(itemId);
-        item.setRestaurantId(restaurantID);
+        item.setRestaurantId(restaurantId);
         UpdateItemResponse updateItemResponse = managerService.update(item, jwtToken);
 
         if(updateItemResponse.isStatus()){
