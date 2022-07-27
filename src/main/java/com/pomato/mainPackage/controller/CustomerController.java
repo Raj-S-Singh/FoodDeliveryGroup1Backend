@@ -30,8 +30,8 @@ public class CustomerController {
         }
     }
     @GetMapping(value="/restaurants",produces = "application/json")
-    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader String token){
-        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(token);
+    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader String jwtToken){
+        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(jwtToken);
         if(allRestaurant==null){
             return new ResponseEntity<Collection<Restaurant>>(Collections.emptyList(),HttpStatus.BAD_REQUEST);
         }
