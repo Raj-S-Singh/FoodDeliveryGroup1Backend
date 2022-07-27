@@ -49,7 +49,8 @@ public class CustomerController {
         return customerService.getAllRestaurant(jwtToken);
     }
     @GetMapping(value="/restaurants/getitems/{restaurantId}",produces="application/json")
-    public ResponseEntity<ViewMenuResponse> viewMenu(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable("restaurantId") int restaurantId){
+    public ResponseEntity<ViewMenuResponse> viewMenu(@RequestHeader(name="jwtToken") String jwtToken,
+                                                     @PathVariable("restaurantId") int restaurantId){
         ViewMenuResponse viewMenuResponse=customerService.viewRestaurantMenu(jwtToken,restaurantId);
         if (viewMenuResponse.isStatus()){
             return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.OK);
