@@ -49,7 +49,8 @@ public class CustomerController {
         return customerService.getAllRestaurant(jwtToken);
     }
     @GetMapping(value="/restaurants/getitems/{restaurantId}",produces="application/json")
-    public ResponseEntity<ViewMenuResponse> viewMenu(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable("restaurantId") int restaurantId){
+    public ResponseEntity<ViewMenuResponse> viewMenu(@RequestHeader(name="jwtToken") String jwtToken,
+                                                     @PathVariable("restaurantId") int restaurantId){
         ViewMenuResponse viewMenuResponse=customerService.viewRestaurantMenu(jwtToken,restaurantId);
         if (viewMenuResponse.isStatus()){
             return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.OK);
@@ -57,5 +58,14 @@ public class CustomerController {
         else {
             return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.BAD_REQUEST);
         }
+    }
+    @GetMapping(value = "/viewOrdersCustomer/{userId}",produces = "application/json")
+    public ResponseEntity<ViewOrderCustomerResponse> getOrders(@RequestHeader(name = "jwtToken") String jwtToken, @PathVariable int userId){
+        ViewOrderCustomerResponse viewOrderCustomerResponse=customerService.viewOrders(jwtToken,userId);
+        if (viewOrderCustomerResponse.isStatus()){
+            return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.BAD_REQUEST);
     }
 }
