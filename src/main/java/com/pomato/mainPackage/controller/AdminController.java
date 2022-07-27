@@ -1,5 +1,6 @@
 package com.pomato.mainPackage.controller;
 
+import com.pomato.mainPackage.model.LoginRequest;
 import com.pomato.mainPackage.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
