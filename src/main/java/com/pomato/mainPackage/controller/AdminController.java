@@ -2,14 +2,12 @@ package com.pomato.mainPackage.controller;
 
 import com.pomato.mainPackage.model.AdminLoginResponse;
 import com.pomato.mainPackage.model.LoginRequest;
+import com.pomato.mainPackage.model.LogoutResponse;
 import com.pomato.mainPackage.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
@@ -24,5 +22,19 @@ public class AdminController {
         }
         else
             return new ResponseEntity<>(adminLoginResponse,HttpStatus.BAD_REQUEST);
+    }
+
+    @PutMapping(value = "/logout/{userId}", produces = "application/json")
+    public ResponseEntity<LogoutResponse> logoutUser(@PathVariable int userId,
+                                                     @RequestHeader(name="jwtToken") String jwtToken){
+
+        LogoutResponse logoutResponse = adminService.logoutAuth(userId, jwtToken);
+        if(logoutResponse.isStatus()){
+            return new ResponseEntity<>(logoutResponse, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(logoutResponse, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

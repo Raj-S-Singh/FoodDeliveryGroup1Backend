@@ -2,6 +2,7 @@ package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.AdminLoginResponse;
 import com.pomato.mainPackage.model.LoginRequest;
+import com.pomato.mainPackage.model.LogoutResponse;
 import com.pomato.mainPackage.model.User;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,27 @@ public class AdminService {
             adminLoginResponse.setStatus(false);
         }
         return adminLoginResponse;
+    }
+
+    public LogoutResponse logoutAuth(int userId, String jwtToken){
+
+        LogoutResponse logoutResponse = new LogoutResponse();
+        if (jwtToken.equals((userRepository.findByUserId(userId)).getJwtToken()) == false) {
+            logoutResponse.setStatus(false);
+            logoutResponse.setMessage("jwtToken invalid");
+
+            return logoutResponse;
+        }
+        else{
+            User user = userRepository.findByUserId(userId);
+            user.setJwtToken(null);
+            userRepository.save(user);
+
+            logoutResponse.setStatus(true);
+            logoutResponse.setMessage("Logged out successfully");
+
+            return logoutResponse;
+        }
+
     }
 }
