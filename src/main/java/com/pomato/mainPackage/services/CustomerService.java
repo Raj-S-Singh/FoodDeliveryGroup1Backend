@@ -11,12 +11,15 @@ import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
+import java.util.Collections;
 
 @Service
 public class CustomerService {
@@ -107,13 +110,18 @@ public class CustomerService {
         }
     }
     
-    public Collection<Restaurant> getAllRestaurant(String token){
+    public ResponseEntity<GetRestaurantResponse> getAllRestaurant(String token){
+        GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
         User user=userRepository.findByJwtToken(token);
-        if(user!=null && user.getRole().equals("Customer")){
-            return restaurantRepository.getAllRestaurants();
+        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+            getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
+            getRestaurantResponse.setMessage("Successfully executed");
+            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.OK);
         }
         else{
-            return null;
+            getRestaurantResponse.setAllRestaurant(Collections.emptyList());
+            getRestaurantResponse.setMessage("JWT Token Invalid");
+            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.BAD_REQUEST);
         }
     }
 }

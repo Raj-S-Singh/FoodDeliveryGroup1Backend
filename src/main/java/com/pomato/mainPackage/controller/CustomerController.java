@@ -1,10 +1,6 @@
 package com.pomato.mainPackage.controller;
 
-import com.pomato.mainPackage.model.CustomerSignupResponse;
-import com.pomato.mainPackage.model.PlaceOrder;
-import com.pomato.mainPackage.model.PlaceOrderResponse;
-import com.pomato.mainPackage.model.Restaurant;
-import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,13 +45,7 @@ public class CustomerController {
     }
     
     @GetMapping(value="/restaurants",produces = "application/json")
-    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader(name = "jwtToken") String jwtToken){
-        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(jwtToken);
-        if(allRestaurant==null){
-            return new ResponseEntity<Collection<Restaurant>>(Collections.emptyList(),HttpStatus.BAD_REQUEST);
-        }
-        else{
-            return new ResponseEntity<Collection<Restaurant>>(allRestaurant,HttpStatus.OK);
-        }
+    public ResponseEntity<GetRestaurantResponse> getRestaurants(@RequestHeader(name = "jwtToken") String jwtToken){
+        return customerService.getAllRestaurant(jwtToken);
     }
 }
