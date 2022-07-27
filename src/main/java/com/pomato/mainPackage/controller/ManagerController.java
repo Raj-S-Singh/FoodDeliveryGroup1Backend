@@ -25,8 +25,29 @@ public class ManagerController {
         else{
             return new ResponseEntity<ManagerSignupResponse>(managerSignupResponse, HttpStatus.BAD_REQUEST);
         }
-
     }
+
+
+    @DeleteMapping(value = "/deleteitem/{restaurantId}/{itemId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<DeleteItemResponse> deleteItemResponseResponse(@PathVariable("restaurantId") int restaurantId, @PathVariable("itemId") int itemId, @RequestHeader(name = "jwtToken") String jwtToken, @RequestBody DeleteItemRequest deleteItemRequest){
+
+
+        DeleteItemResponse deleteItemResponse = managerService.deleteItem(itemId, deleteItemRequest.getUserId(), jwtToken);
+        if(deleteItemResponse.isStatus()){
+            return new ResponseEntity<>(deleteItemResponse, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(deleteItemResponse, HttpStatus.BAD_REQUEST);
+        }
+
+    @PostMapping(value="/addItem/{restaurantId}",consumes = "application/json",produces="application/json")
+    public ResponseEntity<AddItemResponse> addItemToRestaurant(@PathVariable int restaurantId, @RequestHeader(name="jwtToken") String jwtToken,@RequestBody AddItemRequest addItemRequest){
+        AddItemResponse addItemResponse = managerService.addItemToRestaurant(addItemRequest,restaurantId,jwtToken);
+
+        if(addItemResponse.getStatus()){
+            return new ResponseEntity<AddItemResponse>(addItemResponse,HttpStatus.OK);
+        }
+        return new ResponseEntity<AddItemResponse>(addItemResponse,HttpStatus.BAD_REQUEST);
 
     @PutMapping(value = "/updateitem/{restaurantId}/{itemId}", produces = "application/json")
     public ResponseEntity<UpdateItemResponse> updateItem(@RequestBody UpdateItemRequest item, @PathVariable int restaurantID,

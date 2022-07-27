@@ -1,7 +1,9 @@
 package com.pomato.mainPackage.services;
 
-import com.pomato.mainPackage.model.*;
-import com.pomato.mainPackage.repository.MenuRepository;
+import com.pomato.mainPackage.model.ManagerSignupRequest;
+import com.pomato.mainPackage.model.ManagerSignupResponse;
+import com.pomato.mainPackage.model.Restaurant;
+import com.pomato.mainPackage.model.User;
 import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,13 @@ public class ManagerService {
 
     @Autowired
     UserRepository userRepository;
+    
     @Autowired
     RestaurantRepository restaurantRepository;
 
     @Autowired
     MenuRepository menuRepository;
+
 
     public ManagerSignupResponse registerManager(ManagerSignupRequest managerSignupRequest){
 
@@ -83,38 +87,65 @@ public class ManagerService {
         }
     }
 
+
+    public DeleteItemResponse deleteItem(int itemId, int userId, String jwtToken){
+    
+    public AddItemResponse addItemToRestaurant(AddItemRequest request,int restaurantId,String jwtToken){
+        Menu currentItem = menuRepository.findByName(request.getName());
+        Menu managerItem = new Menu();
+        AddItemResponse response= new AddItemResponse();
+        if(jwtToken.equals(userRepository.findByUserId(request.getUserId()).getJwtToken())==false){
+            response.setStatus(false);
+            response.setMessage("jwtToken Invalid.");
+        }
+        else if(currentItem!=null){
+            response.setStatus(false);
+            response.setMessage("Item already exists in the database");
+        } else {
+            managerItem.setRestaurantId(restaurantId);
+            managerItem.setItemImage(request.getItemImage());
+            managerItem.setDescription(request.getDescription());
+            managerItem.setItemImage(request.getItemImage());
+            managerItem.setCuisineType(request.getCuisineType());
+            managerItem.setPrice(request.getPrice());
+            managerItem.setName(request.getName());
+            managerItem = menuRepository.save(managerItem);
+
+            response.setStatus(true);
+            response.setMessage("Item added successfully.");
+            response.setItemId(managerItem.getItemId());
+            response.setRestaurantId(managerItem.getRestaurantId());
+            response.setCuisineType(managerItem.getCuisineType());
+            response.setName(managerItem.getName());
+            response.setDescription(managerItem.getDescription());
+            response.setPrice(managerItem.getPrice());
+            response.setItemImage(managerItem.getItemImage());
+        }
+        return response;
+    }
+
     public UpdateItemResponse update(UpdateItemRequest item, String jwtToken){
 
-        UpdateItemResponse updateItemResponse = new UpdateItemResponse();
+        Menu newItem = menuRepository.findByItemId(itemId);
+        DeleteItemResponse deleteItemResponse = new DeleteItemResponse();
 
-        if(jwtToken.equals((userRepository.findByUserId(item.getUserId())).getJwtToken())==false){
-            updateItemResponse.setStatus(false);
-            updateItemResponse.setMessage("jwtToken invalid");
+        if(jwtToken.equals(userRepository.findByUserId(userId).getJwtToken()) == false){
+            deleteItemResponse.setStatus(false);
+            deleteItemResponse.setMessage("jwtToken invalid");
 
-            return updateItemResponse;
+            return deleteItemResponse;
         }
 
-        Menu curItem = menuRepository.findByItemId(item.getItemId());
-        if(curItem == null){
-            updateItemResponse.setStatus(false);
-            updateItemResponse.setMessage("item with given id not found");
-            return updateItemResponse;
+        if(newItem == null){
+            deleteItemResponse.setStatus(false);
+            deleteItemResponse.setMessage("Item doesn't exist.");
         }
         else{
-            Menu updatedItem = new Menu();
-            updatedItem.setItemId(item.getItemId());
-            updatedItem.setItemImage(item.getItemImage());
-            updatedItem.setName(item.getName());
-            updatedItem.setDescription(item.getDescription());
-            updatedItem.setPrice(item.getPrice());
-            updatedItem.setCuisineType(item.getCuisineType());
-            updatedItem.setRestaurantId(item.getRestaurantId());
-            menuRepository.save(updatedItem);
-
-            updateItemResponse.setStatus(true);
-            updateItemResponse.setMessage("Item updated");
-
-            return updateItemResponse;
+            menuRepository.deleteById(itemId);
+            deleteItemResponse.setStatus(true);
+            deleteItemResponse.setMessage("Item deleted from menu");
         }
+
+        return deleteItemResponse;
     }
 }
