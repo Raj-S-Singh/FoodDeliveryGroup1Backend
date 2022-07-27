@@ -13,6 +13,15 @@ public class Payment {
     private float amount;
     private String paymentStatus;
     private String paymentMethod;
+    private String timeStamp;
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     public int getPaymentId() {
         return paymentId;
