@@ -1,12 +1,18 @@
 package com.pomato.mainPackage.controller;
 
 import com.pomato.mainPackage.model.CustomerSignupResponse;
+import com.pomato.mainPackage.model.PlaceOrder;
+import com.pomato.mainPackage.model.PlaceOrderResponse;
 import com.pomato.mainPackage.model.Restaurant;
 import com.pomato.mainPackage.model.User;
 import com.pomato.mainPackage.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -29,6 +35,18 @@ public class CustomerController {
             return new ResponseEntity<CustomerSignupResponse>(customerSignupResponse, HttpStatus.BAD_REQUEST);
         }
     }
+    @PostMapping(value = "/placeOrder", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<PlaceOrderResponse> placeOrderCustomer(@RequestHeader(name = "jwtToken")String jwtToken
+            , @RequestBody PlaceOrder placeOrder){
+        PlaceOrderResponse placeOrderResponse=customerService.placeOrder(jwtToken,placeOrder);
+        if (placeOrderResponse.isStatus()){
+            return new ResponseEntity<>(placeOrderResponse,HttpStatus.OK);
+        }
+        else {
+            return new ResponseEntity<>(placeOrderResponse,HttpStatus.BAD_REQUEST);
+        }
+    }
+    
     @GetMapping(value="/restaurants",produces = "application/json")
     public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader String token){
         Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(token);
