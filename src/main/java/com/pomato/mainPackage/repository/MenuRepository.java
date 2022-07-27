@@ -8,6 +8,7 @@ import java.util.Collection;
 
 public interface MenuRepository extends JpaRepository<Menu,Integer> {
     Menu findByItemId(int itemId);
+    Menu findByName(String name);
 
     @Query(value = "SELECT * FROM Menu WHERE restaurantId = restaurant_Id",nativeQuery=true)
     Collection<Menu> findRestaurantMenu(int restaurant_Id);
