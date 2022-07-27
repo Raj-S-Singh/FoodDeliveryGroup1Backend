@@ -22,10 +22,10 @@ public class ManagerController {
         ManagerSignupResponse managerSignupResponse = managerService.registerManager(managerSignupRequest);
 
         if(managerSignupResponse.isStatus()){
-            return new ResponseEntity<>(managerSignupResponse, HttpStatus.OK );
+            return new ResponseEntity<ManagerSignupResponse>(managerSignupResponse, HttpStatus.OK );
         }
         else{
-            return new ResponseEntity<>(managerSignupResponse, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<ManagerSignupResponse>(managerSignupResponse, HttpStatus.BAD_REQUEST);
         }
 
     }
