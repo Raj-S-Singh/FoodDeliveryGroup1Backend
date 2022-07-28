@@ -1,10 +1,6 @@
 package com.pomato.mainPackage.controller;
 
-import com.pomato.mainPackage.model.CustomerSignupResponse;
-import com.pomato.mainPackage.model.PlaceOrder;
-import com.pomato.mainPackage.model.PlaceOrderResponse;
-import com.pomato.mainPackage.model.Restaurant;
-import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,13 +45,27 @@ public class CustomerController {
     }
     
     @GetMapping(value="/restaurants",produces = "application/json")
-    public ResponseEntity<Collection<Restaurant>> getRestaurants(@RequestHeader(name = "jwtToken") String jwtToken){
-        Collection<Restaurant> allRestaurant=customerService.getAllRestaurant(jwtToken);
-        if(allRestaurant==null){
-            return new ResponseEntity<Collection<Restaurant>>(Collections.emptyList(),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<GetRestaurantResponse> getRestaurants(@RequestHeader(name = "jwtToken") String jwtToken){
+        return customerService.getAllRestaurant(jwtToken);
+    }
+    @GetMapping(value="/restaurants/getitems/{restaurantId}",produces="application/json")
+    public ResponseEntity<ViewMenuResponse> viewMenu(@RequestHeader(name="jwtToken") String jwtToken,
+                                                     @PathVariable("restaurantId") int restaurantId){
+        ViewMenuResponse viewMenuResponse=customerService.viewRestaurantMenu(jwtToken,restaurantId);
+        if (viewMenuResponse.isStatus()){
+            return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.OK);
         }
-        else{
-            return new ResponseEntity<Collection<Restaurant>>(allRestaurant,HttpStatus.OK);
+        else {
+            return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.BAD_REQUEST);
         }
+    }
+    @GetMapping(value = "/viewOrdersCustomer/{userId}",produces = "application/json")
+    public ResponseEntity<ViewOrderCustomerResponse> getOrders(@RequestHeader(name = "jwtToken") String jwtToken, @PathVariable int userId){
+        ViewOrderCustomerResponse viewOrderCustomerResponse=customerService.viewOrders(jwtToken,userId);
+        if (viewOrderCustomerResponse.isStatus()){
+            return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.BAD_REQUEST);
     }
 }

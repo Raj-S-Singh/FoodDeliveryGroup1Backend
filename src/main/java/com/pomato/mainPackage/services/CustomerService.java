@@ -1,22 +1,18 @@
 package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.*;
-import com.pomato.mainPackage.repository.FoodOrderRepository;
-import com.pomato.mainPackage.repository.PaymentRepository;
-import com.pomato.mainPackage.model.AddItemResponse;
-import com.pomato.mainPackage.model.CustomerSignupResponse;
-import com.pomato.mainPackage.model.Restaurant;
-import com.pomato.mainPackage.model.User;
-import com.pomato.mainPackage.repository.RestaurantRepository;
-import com.pomato.mainPackage.repository.UserRepository;
+import com.pomato.mainPackage.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -29,6 +25,8 @@ public class CustomerService {
     PaymentRepository paymentRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
+    @Autowired
+    MenuRepository menuRepository;
 
     @Value("${pepper}")
     String pepper;
@@ -106,14 +104,49 @@ public class CustomerService {
             return placeOrderResponse;
         }
     }
-    
-    public Collection<Restaurant> getAllRestaurant(String token){
+
+    public ResponseEntity<GetRestaurantResponse> getAllRestaurant(String token){
+        GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
         User user=userRepository.findByJwtToken(token);
-        if(user!=null && user.getRole().equals("Customer")){
-            return restaurantRepository.getAllRestaurants();
+        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+            getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
+            getRestaurantResponse.setMessage("Successfully executed");
+            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.OK);
         }
         else{
-            return null;
+            getRestaurantResponse.setAllRestaurant(Collections.emptyList());
+            getRestaurantResponse.setMessage("JWT Token Invalid");
+            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.BAD_REQUEST);
         }
+    }
+
+    public ViewOrderCustomerResponse viewOrders(String jwtToken, int userId) {
+        ViewOrderCustomerResponse viewOrderCustomerResponse = new ViewOrderCustomerResponse();
+        User user = userRepository.findByUserId(userId);
+        if (!user.getJwtToken().equals(jwtToken)) {
+            viewOrderCustomerResponse.setMessage("jwtToken invalid");
+            viewOrderCustomerResponse.setStatus(false);
+            return viewOrderCustomerResponse;
+        }
+        List<FoodOrders> ordersList = foodOrderRepository.getAllByUserId(userId);
+        viewOrderCustomerResponse.setMessage("Fetched Orders");
+        viewOrderCustomerResponse.setStatus(true);
+        viewOrderCustomerResponse.setFoodOrders(ordersList);
+        return viewOrderCustomerResponse;
+    }
+    public ViewMenuResponse viewRestaurantMenu(String jwtToken,int restaurantId){
+        ViewMenuResponse viewMenuResponse=new ViewMenuResponse();
+        User user=userRepository.findByJwtToken(jwtToken);
+        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+            viewMenuResponse.setStatus(true);
+            viewMenuResponse.setMessage("Successfully Executed");
+            viewMenuResponse.setItems(menuRepository.findRestaurantMenu(restaurantId));
+        }
+        else{
+            viewMenuResponse.setStatus(false);
+            viewMenuResponse.setMessage("Invalid JWT Token");
+            viewMenuResponse.setItems(Collections.emptyList());
+        }
+        return viewMenuResponse;
     }
 }
