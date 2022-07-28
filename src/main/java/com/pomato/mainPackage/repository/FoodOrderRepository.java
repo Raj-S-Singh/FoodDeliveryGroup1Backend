@@ -15,4 +15,6 @@ public interface FoodOrderRepository extends JpaRepository<FoodOrders,Integer> {
     @Query("Select e from FoodOrders e where e.userId=?1")
     List<FoodOrders> getAllByUserId(int userId);
 
+
+
 }
