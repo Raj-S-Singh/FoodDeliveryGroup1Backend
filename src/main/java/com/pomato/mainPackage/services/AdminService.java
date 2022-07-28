@@ -67,8 +67,6 @@ public class AdminService {
 
 
         }
-    @Autowired
-    RestaurantRepository restaurantRepository;
     public RestaurantDeleteResponse deleteRestaurant(int restaurantId, String jwtToken){
         RestaurantDeleteResponse restaurantDeleteResponse=new RestaurantDeleteResponse();
         User user= userRepository.findByJwtToken(jwtToken);
