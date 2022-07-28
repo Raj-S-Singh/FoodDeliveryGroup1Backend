@@ -108,6 +108,7 @@ public class CustomerService {
             return placeOrderResponse;
         }
     }
+
     
     public GetRestaurantResponse getAllRestaurant(String token){
         GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
@@ -120,6 +121,7 @@ public class CustomerService {
         }
         else{
             getRestaurantResponse.setAllRestaurant(Collections.emptyList());
+
             getRestaurantResponse.setStatus(false);
             getRestaurantResponse.setMessage("jwtToken invalid");
             return getRestaurantResponse;
@@ -139,5 +141,31 @@ public class CustomerService {
             viewMenuResponse.setItems(Collections.emptyList());
         }
         return viewMenuResponse;
+    }
+    public boolean checkout(String jwtToken, int userId) {
+        User user = userRepository.findByUserId(userId);
+        PlaceOrderResponse placeOrderResponse=new PlaceOrderResponse();
+        if (!user.getJwtToken().equals(jwtToken)) {
+            placeOrderResponse.setMessage("jwtToken invalid");
+            placeOrderResponse.setStatus(false);
+            return placeOrderResponse.isStatus();
+        }
+        placeOrderResponse.setMessage("Checkout");
+        placeOrderResponse.setStatus(true);
+        return placeOrderResponse.isStatus();
+    }
+    public ViewOrderCustomerResponse viewOrders(String jwtToken, int userId) {
+        ViewOrderCustomerResponse viewOrderCustomerResponse = new ViewOrderCustomerResponse();
+        User user = userRepository.findByUserId(userId);
+        if (!user.getJwtToken().equals(jwtToken)) {
+            viewOrderCustomerResponse.setMessage("jwtToken invalid");
+            viewOrderCustomerResponse.setStatus(false);
+            return viewOrderCustomerResponse;
+        }
+        List<FoodOrders> ordersList = foodOrderRepository.getAllByUserId(userId);
+        viewOrderCustomerResponse.setMessage("Fetched Orders");
+        viewOrderCustomerResponse.setStatus(true);
+        viewOrderCustomerResponse.setFoodOrders(ordersList);
+        return viewOrderCustomerResponse;
     }
 }
