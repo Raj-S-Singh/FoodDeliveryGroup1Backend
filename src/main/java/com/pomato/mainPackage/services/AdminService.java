@@ -1,6 +1,7 @@
 package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.*;
+import com.pomato.mainPackage.repository.FoodOrderRepository;
 import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class AdminService {
     UserRepository userRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    FoodOrderRepository foodOrderRepository;
     public AdminLoginResponse loginAuth(LoginRequest loginRequest) {
         User user=userRepository.findByEmail(loginRequest.getEmail());
         AdminLoginResponse adminLoginResponse=new AdminLoginResponse();
@@ -87,5 +91,21 @@ public class AdminService {
             }
         }
         return restaurantDeleteResponse;
+    }
+
+    public ViewAllOrdersAdminResponse getAllOrder(String jwtToken){
+
+        ViewAllOrdersAdminResponse viewAllOrdersAdminResponse = new ViewAllOrdersAdminResponse();
+        if(!jwtToken.equals(userRepository.findByUserId(1).getJwtToken())){
+            viewAllOrdersAdminResponse.setStatus(false);
+            viewAllOrdersAdminResponse.setMessage("jwtToken invalid");
+
+        }
+        else{
+            viewAllOrdersAdminResponse.setStatus(true);
+            viewAllOrdersAdminResponse.setMessage("Orders fetched");
+            viewAllOrdersAdminResponse.setList(foodOrderRepository.findAll());
+        }
+        return viewAllOrdersAdminResponse;
     }
 }
