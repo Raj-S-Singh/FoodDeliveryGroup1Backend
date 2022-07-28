@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -148,5 +149,18 @@ public class CustomerService {
             viewMenuResponse.setItems(Collections.emptyList());
         }
         return viewMenuResponse;
+    }
+
+    public boolean checkout(String jwtToken, int userId) {
+        User user = userRepository.findByUserId(userId);
+        PlaceOrderResponse placeOrderResponse=new PlaceOrderResponse();
+        if (!user.getJwtToken().equals(jwtToken)) {
+            placeOrderResponse.setMessage("jwtToken invalid");
+            placeOrderResponse.setStatus(false);
+            return placeOrderResponse.isStatus();
+        }
+        placeOrderResponse.setMessage("Checkout");
+        placeOrderResponse.setStatus(true);
+        return placeOrderResponse.isStatus();
     }
 }
