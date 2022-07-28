@@ -1,9 +1,6 @@
 package com.pomato.mainPackage.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class FoodOrders {
@@ -14,6 +11,7 @@ public class FoodOrders {
     private int userId;
     private String address;
     private int restaurantId;
+    @Column(length = 10000)
     private String listOfItems;
     private String orderStatus;
 
