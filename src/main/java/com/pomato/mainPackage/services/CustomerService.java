@@ -1,5 +1,7 @@
 package com.pomato.mainPackage.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.repository.*;
 import com.pomato.mainPackage.model.AddItemResponse;
@@ -68,7 +70,7 @@ public class CustomerService {
         return customerSignupResponse;
     }
 
-    public PlaceOrderResponse placeOrder(String jwtToken, PlaceOrder placeOrder) {
+    public PlaceOrderResponse placeOrder(String jwtToken, PlaceOrder placeOrder) throws JsonProcessingException {
         FoodOrders order=new FoodOrders();
         Payment payment=new Payment();
         User user=userRepository.findByUserId(placeOrder.getUserId());
@@ -82,7 +84,8 @@ public class CustomerService {
             order.setUserId(placeOrder.getUserId());
             order.setAddress(placeOrder.getAddress());
             order.setRestaurantId(placeOrder.getRestaurantId());
-            order.setListOfItems(placeOrder.getListOfItems());
+            ObjectMapper objectMapper=new ObjectMapper();
+            order.setListOfItems(objectMapper.writeValueAsString(placeOrder.getListOfItems()));
             order.setOrderStatus("Order Placed");
             String st = String.valueOf(Timestamp.from(Instant.now()));
             order.setTimeStamp(st);
