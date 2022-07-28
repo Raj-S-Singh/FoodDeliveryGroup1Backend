@@ -60,12 +60,17 @@ public class CustomerController {
         }
     }
     @GetMapping(value = "/viewOrdersCustomer/{userId}",produces = "application/json")
-    public ResponseEntity<ViewOrderCustomerResponse> getOrders(@RequestHeader(name = "jwtToken") String jwtToken, @PathVariable int userId){
+    public ResponseEntity<ViewOrderCustomerResponse> getOrders(@RequestHeader(name = "jwtToken") String jwtToken,
+                                                               @PathVariable int userId){
         ViewOrderCustomerResponse viewOrderCustomerResponse=customerService.viewOrders(jwtToken,userId);
         if (viewOrderCustomerResponse.isStatus()){
             return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.OK);
         }
         else
             return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.BAD_REQUEST);
+    }
+    @PostMapping(value = "/checkout/{userId}")
+    public boolean checkoutfunc(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable int userId){
+        return customerService.checkout(jwtToken,userId);
     }
 }
