@@ -1,9 +1,6 @@
 package com.pomato.mainPackage.controller;
 
-import com.pomato.mainPackage.model.AdminLoginResponse;
-import com.pomato.mainPackage.model.LoginRequest;
-import com.pomato.mainPackage.model.LogoutResponse;
-import com.pomato.mainPackage.model.RestaurantDeleteResponse;
+import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,5 +44,13 @@ public class AdminController {
         }else{
             return new ResponseEntity<>(restaurantDeleteResponse, HttpStatus.BAD_REQUEST);
         }
+    }
+    @GetMapping(value = "/viewAllPayments",produces = "application/json")
+    public ResponseEntity<PaymentAllResponse> paymentAll(@RequestHeader(name = "jwtToken") String jwtToken){
+        PaymentAllResponse paymentAllResponse=adminService.getAllPayments(jwtToken);
+        if (paymentAllResponse.isStatus())
+            return new ResponseEntity<>(paymentAllResponse,HttpStatus.OK);
+        else
+            return new ResponseEntity<>(paymentAllResponse,HttpStatus.BAD_REQUEST);
     }
 }
