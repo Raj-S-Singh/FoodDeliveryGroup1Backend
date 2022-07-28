@@ -15,6 +15,8 @@ public class AdminService {
     String pepper;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RestaurantRepository restaurantRepository;
     public AdminLoginResponse loginAuth(LoginRequest loginRequest) {
         User user=userRepository.findByEmail(loginRequest.getEmail());
         AdminLoginResponse adminLoginResponse=new AdminLoginResponse();
