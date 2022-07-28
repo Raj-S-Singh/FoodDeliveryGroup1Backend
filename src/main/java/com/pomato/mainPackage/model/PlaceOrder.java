@@ -1,10 +1,14 @@
 package com.pomato.mainPackage.model;
 
+import java.util.List;
+
 public class PlaceOrder {
     private String address;
     private float amount;
     private String paymentMethod;
-    private String listOfItems;
+
+
+    private List<ItemListReturned> listOfItems;
     private int restaurantId;
     private int userId;
 
@@ -47,12 +51,11 @@ public class PlaceOrder {
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
-
-    public String getListOfItems() {
+    public List<ItemListReturned> getListOfItems() {
         return listOfItems;
     }
 
-    public void setListOfItems(String listOfItems) {
+    public void setListOfItems(List<ItemListReturned> listOfItems) {
         this.listOfItems = listOfItems;
     }
 }
