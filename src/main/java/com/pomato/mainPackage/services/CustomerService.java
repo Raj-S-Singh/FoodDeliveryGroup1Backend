@@ -2,18 +2,21 @@ package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.repository.*;
+import com.pomato.mainPackage.model.AddItemResponse;
+import com.pomato.mainPackage.model.CustomerSignupResponse;
+import com.pomato.mainPackage.model.Restaurant;
+import com.pomato.mainPackage.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class CustomerService {
@@ -105,35 +108,22 @@ public class CustomerService {
             return placeOrderResponse;
         }
     }
-
-    public ResponseEntity<GetRestaurantResponse> getAllRestaurant(String token){
+    
+    public GetRestaurantResponse getAllRestaurant(String token){
         GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
         User user=userRepository.findByJwtToken(token);
         if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
             getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
             getRestaurantResponse.setMessage("Successfully executed");
-            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.OK);
+            getRestaurantResponse.setStatus(true);
+            return getRestaurantResponse;
         }
         else{
             getRestaurantResponse.setAllRestaurant(Collections.emptyList());
-            getRestaurantResponse.setMessage("JWT Token Invalid");
-            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.BAD_REQUEST);
+            getRestaurantResponse.setStatus(false);
+            getRestaurantResponse.setMessage("jwtToken invalid");
+            return getRestaurantResponse;
         }
-    }
-
-    public ViewOrderCustomerResponse viewOrders(String jwtToken, int userId) {
-        ViewOrderCustomerResponse viewOrderCustomerResponse = new ViewOrderCustomerResponse();
-        User user = userRepository.findByUserId(userId);
-        if (!user.getJwtToken().equals(jwtToken)) {
-            viewOrderCustomerResponse.setMessage("jwtToken invalid");
-            viewOrderCustomerResponse.setStatus(false);
-            return viewOrderCustomerResponse;
-        }
-        List<FoodOrders> ordersList = foodOrderRepository.getAllByUserId(userId);
-        viewOrderCustomerResponse.setMessage("Fetched Orders");
-        viewOrderCustomerResponse.setStatus(true);
-        viewOrderCustomerResponse.setFoodOrders(ordersList);
-        return viewOrderCustomerResponse;
     }
     public ViewMenuResponse viewRestaurantMenu(String jwtToken,int restaurantId){
         ViewMenuResponse viewMenuResponse=new ViewMenuResponse();
@@ -145,22 +135,9 @@ public class CustomerService {
         }
         else{
             viewMenuResponse.setStatus(false);
-            viewMenuResponse.setMessage("Invalid JWT Token");
+            viewMenuResponse.setMessage("jwtToken invalid");
             viewMenuResponse.setItems(Collections.emptyList());
         }
         return viewMenuResponse;
-    }
-
-    public boolean checkout(String jwtToken, int userId) {
-        User user = userRepository.findByUserId(userId);
-        PlaceOrderResponse placeOrderResponse=new PlaceOrderResponse();
-        if (!user.getJwtToken().equals(jwtToken)) {
-            placeOrderResponse.setMessage("jwtToken invalid");
-            placeOrderResponse.setStatus(false);
-            return placeOrderResponse.isStatus();
-        }
-        placeOrderResponse.setMessage("Checkout");
-        placeOrderResponse.setStatus(true);
-        return placeOrderResponse.isStatus();
     }
 }
