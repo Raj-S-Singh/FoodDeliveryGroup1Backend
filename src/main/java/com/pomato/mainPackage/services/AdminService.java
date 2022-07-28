@@ -1,16 +1,13 @@
 package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.*;
-import com.pomato.mainPackage.repository.PaymentRepository;
 import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 @Service
 public class AdminService {
@@ -20,6 +17,9 @@ public class AdminService {
     UserRepository userRepository;
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired
+    FoodOrderRepository foodOrderRepository;
     @Autowired
     PaymentRepository paymentRepository;
     public AdminLoginResponse loginAuth(LoginRequest loginRequest) {
@@ -72,6 +72,8 @@ public class AdminService {
 
 
         }
+    @Autowired
+    RestaurantRepository restaurantRepository;
     public RestaurantDeleteResponse deleteRestaurant(int restaurantId, String jwtToken){
         RestaurantDeleteResponse restaurantDeleteResponse=new RestaurantDeleteResponse();
         User user= userRepository.findByJwtToken(jwtToken);
@@ -92,20 +94,5 @@ public class AdminService {
             }
         }
         return restaurantDeleteResponse;
-    }
-
-    public PaymentAllResponse getAllPayments(String jwtToken) {
-        PaymentAllResponse paymentAllResponse=new PaymentAllResponse();
-        User user=userRepository.findByUserId(1);
-        if (!user.getJwtToken().equals(jwtToken)) {
-            paymentAllResponse.setMessage("jwtToken invalid");
-            paymentAllResponse.setStatus(false);
-            return paymentAllResponse;
-        }
-        List<Payment> paymentList=paymentRepository.findAll();
-        paymentAllResponse.setMessage("Payments Fetched");
-        paymentAllResponse.setStatus(true);
-        paymentAllResponse.setPayments(paymentList);
-        return paymentAllResponse;
     }
 }
