@@ -4,8 +4,17 @@ import java.util.Collection;
 import java.util.List;
 
 public class GetRestaurantResponse {
-    String message;
-    List<Restaurant> allRestaurant;
+    private String message;
+    private List<Restaurant> allRestaurant;
+    private boolean status;
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
 
     public String getMessage() {
         return message;
@@ -14,6 +23,7 @@ public class GetRestaurantResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
 
     public List<Restaurant> getAllRestaurant() {
         return allRestaurant;
