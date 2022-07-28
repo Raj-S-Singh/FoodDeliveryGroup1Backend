@@ -297,7 +297,7 @@
   },
   {
     "endpoint": "deleteRestaurant",
-    "path": "/restaurant/{restaurantId}",
+    "path": "/restaurant/delete/{restaurantId}",
     "method": "DELETE",
     "response": {
       "status": "success",

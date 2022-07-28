@@ -1,9 +1,7 @@
 package com.pomato.mainPackage.services;
 
-import com.pomato.mainPackage.model.AdminLoginResponse;
-import com.pomato.mainPackage.model.LoginRequest;
-import com.pomato.mainPackage.model.LogoutResponse;
-import com.pomato.mainPackage.model.User;
+import com.pomato.mainPackage.model.*;
+import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +15,8 @@ public class AdminService {
     String pepper;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    RestaurantRepository restaurantRepository;
     public AdminLoginResponse loginAuth(LoginRequest loginRequest) {
         User user=userRepository.findByEmail(loginRequest.getEmail());
         AdminLoginResponse adminLoginResponse=new AdminLoginResponse();

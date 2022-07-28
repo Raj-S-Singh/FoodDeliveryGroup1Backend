@@ -109,18 +109,20 @@ public class CustomerService {
         }
     }
     
-    public ResponseEntity<GetRestaurantResponse> getAllRestaurant(String token){
+    public GetRestaurantResponse getAllRestaurant(String token){
         GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
         User user=userRepository.findByJwtToken(token);
         if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
             getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
             getRestaurantResponse.setMessage("Successfully executed");
-            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.OK);
+            getRestaurantResponse.setStatus(true);
+            return getRestaurantResponse;
         }
         else{
             getRestaurantResponse.setAllRestaurant(Collections.emptyList());
-            getRestaurantResponse.setMessage("JWT Token Invalid");
-            return new ResponseEntity<GetRestaurantResponse>(getRestaurantResponse, HttpStatus.BAD_REQUEST);
+            getRestaurantResponse.setStatus(false);
+            getRestaurantResponse.setMessage("jwtToken invalid");
+            return getRestaurantResponse;
         }
     }
     public ViewMenuResponse viewRestaurantMenu(String jwtToken,int restaurantId){
@@ -133,7 +135,7 @@ public class CustomerService {
         }
         else{
             viewMenuResponse.setStatus(false);
-            viewMenuResponse.setMessage("Invalid JWT Token");
+            viewMenuResponse.setMessage("jwtToken invalid");
             viewMenuResponse.setItems(Collections.emptyList());
         }
         return viewMenuResponse;
