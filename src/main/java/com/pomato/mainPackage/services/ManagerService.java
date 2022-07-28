@@ -1,6 +1,7 @@
 package com.pomato.mainPackage.services;
 
 import com.pomato.mainPackage.model.*;
+import com.pomato.mainPackage.repository.FoodOrderRepository;
 import com.pomato.mainPackage.repository.MenuRepository;
 import com.pomato.mainPackage.repository.RestaurantRepository;
 import com.pomato.mainPackage.repository.UserRepository;
@@ -23,6 +24,9 @@ public class ManagerService {
 
     @Autowired
     MenuRepository menuRepository;
+
+    @Autowired
+    FoodOrderRepository foodOrderRepository;
 
 
     public ManagerSignupResponse registerManager(ManagerSignupRequest managerSignupRequest) {
@@ -171,6 +175,33 @@ public class ManagerService {
             updateItemResponse.setMessage("Item updated");
 
             return updateItemResponse;
+        }
+    }
+
+    public ViewOrderManagerResponse showOrders(int restaurantId, int userId, String jwtToken){
+
+        ViewOrderManagerResponse viewOrderManagerResponse = new ViewOrderManagerResponse();
+
+        if (!jwtToken.equals((userRepository.findByUserId(userId)).getJwtToken())) {
+            viewOrderManagerResponse.setStatus(false);
+            viewOrderManagerResponse.setMessage("jwtToken invalid");
+
+            return viewOrderManagerResponse;
+        }
+
+        Restaurant restaurant = restaurantRepository.findByRestaurantId(restaurantId);
+        if(restaurant == null){
+            viewOrderManagerResponse.setMessage("Invalid Restaurant id");
+            viewOrderManagerResponse.setStatus(false);
+
+            return viewOrderManagerResponse;
+        }
+        else{
+            viewOrderManagerResponse.setMessage("Fetch order");
+            viewOrderManagerResponse.setStatus(true);
+            viewOrderManagerResponse.setList(foodOrderRepository.findAllByRestaurantId(restaurantId));
+
+            return viewOrderManagerResponse;
         }
     }
 }

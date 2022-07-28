@@ -67,4 +67,20 @@ public class ManagerController {
 
 
     }
+
+    @GetMapping(value = "/viewordersmanager/{userId}/{restaurantId}", produces = "application/json")
+    public ResponseEntity<ViewOrderManagerResponse> viewOrdersManager(@PathVariable int restaurantId,
+                                  @PathVariable int userId, @RequestHeader(name="jwtToken") String jwtToken){
+
+        ViewOrderManagerResponse viewOrderManagerResponse = managerService.showOrders(restaurantId, userId, jwtToken);
+
+        if(viewOrderManagerResponse.isStatus()){
+            return new ResponseEntity<>(viewOrderManagerResponse, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(viewOrderManagerResponse, HttpStatus.BAD_REQUEST);
+        }
+
+
+    }
 }
