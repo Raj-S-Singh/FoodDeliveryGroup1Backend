@@ -304,5 +304,15 @@
       "http-status": 200,
       "message": "Successfully deleted"
     }
+  },
+  {
+    "endpoint": "uploadImage",
+    "path": "/uploadimage",
+    "method": "POST",
+    "response": {
+      "status": true,
+      "http-status": 200,
+      "message": "Success"
+    }
   }
 ]
