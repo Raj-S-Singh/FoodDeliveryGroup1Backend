@@ -27,11 +27,9 @@ public class AdminController {
     @Autowired
     UserRepository userRepository;
     @DeleteMapping(value = "/restaurant/{restaurantId}")
-    public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@PathVariable int id, @RequestHeader(name = "jwtToken") String jwtToken), @RequestBody DeleteRestaurantUserId deleteRestaurantUserId)
-
+    public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@PathVariable int id, @RequestHeader(name = "jwtToken") String jwtToken))
     {
-        RestaurantDeleteResponse restaurantDeleteResponse = deleteRestaurant( int id, String jwtToken,
-        int deleteRestaurantUserId.getId());
+        RestaurantDeleteResponse restaurantDeleteResponse = deleteRestaurant( int id, String jwtToken);
         if(restaurantDeleteResponse.isStatus()){
             return new ResponseEntity<>(restaurantDeleteResponse, HttpStatus.OK);
         }

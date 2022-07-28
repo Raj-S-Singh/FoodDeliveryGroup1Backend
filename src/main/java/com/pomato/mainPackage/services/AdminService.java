@@ -47,9 +47,10 @@ public class AdminService {
 
     @Autowired
     RestaurantRepository restaurantRepository;
-    public RestaurantDeleteResponse deleteRestaurant(int id, String jwtToken, int userid){
+    public RestaurantDeleteResponse deleteRestaurant(int id, String jwtToken){
         RestaurantDeleteResponse restaurantDeleteResponse = new RestaurantDeleteResponse();
-        if (jwtToken.equals((userRepository.findByUserId(userid)).getJwdToken())==false){
+        User user = userRepository.findByJwtToken(jwtToken);
+        if (){
             restaurantDeleteResponse.setMessage("Sorry not allowed to delete restaurant");
             restaurantDeleteResponse.setStatus(false);
             return restaurantDeleteResponse;
