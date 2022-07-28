@@ -1,9 +1,6 @@
 package com.pomato.mainPackage.controller;
 
-import com.pomato.mainPackage.model.AdminLoginResponse;
-import com.pomato.mainPackage.model.LoginRequest;
-import com.pomato.mainPackage.model.LogoutResponse;
-import com.pomato.mainPackage.model.RestaurantDeleteResponse;
+import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
