@@ -36,8 +36,7 @@ public class AdminController {
 
     }
     @DeleteMapping(value = "restaurant/delete/{restaurantId}",produces = "application/json")
-    public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@RequestHeader(name = "jwtToken")
-                                                                         String jwtToken,@PathVariable("restaurantId") int restaurantId){
+    public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@RequestHeader(name = "jwtToken") String jwtToken,@PathVariable("restaurantId") int restaurantId){
         RestaurantDeleteResponse restaurantDeleteResponse=new RestaurantDeleteResponse();
         restaurantDeleteResponse=adminService.deleteRestaurant(restaurantId, jwtToken);
         if (restaurantDeleteResponse.isStatus()){
@@ -59,5 +58,13 @@ public class AdminController {
             return new ResponseEntity<>(viewAllOrdersAdminResponse, HttpStatus.BAD_REQUEST);
         }
 
+    }
+    @GetMapping(value = "/viewAllPayments",produces = "application/json")
+    public ResponseEntity<PaymentAllResponse> paymentAll(@RequestHeader(name = "jwtToken") String jwtToken){
+        PaymentAllResponse paymentAllResponse=adminService.getAllPayments(jwtToken);
+        if (paymentAllResponse.isStatus())
+            return new ResponseEntity<>(paymentAllResponse,HttpStatus.OK);
+        else
+            return new ResponseEntity<>(paymentAllResponse,HttpStatus.BAD_REQUEST);
     }
 }
