@@ -1,12 +1,12 @@
 package com.pomato.mainPackage.model;
 
-import java.util.Collection;
 import java.util.List;
 
-public class GetRestaurantResponse {
-    private String message;
-    private List<Restaurant> allRestaurant;
+public class ViewAllOrdersAdminResponse {
+
     private boolean status;
+    private String message;
+    private List<FoodOrders> list;
 
     public boolean isStatus() {
         return status;
@@ -24,12 +24,11 @@ public class GetRestaurantResponse {
         this.message = message;
     }
 
-
-    public List<Restaurant> getAllRestaurant() {
-        return allRestaurant;
+    public List<FoodOrders> getList() {
+        return list;
     }
 
-    public void setAllRestaurant(List<Restaurant> allRestaurant) {
-        this.allRestaurant = allRestaurant;
+    public void setList(List<FoodOrders> list) {
+        this.list = list;
     }
 }
