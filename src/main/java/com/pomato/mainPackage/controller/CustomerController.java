@@ -76,7 +76,7 @@ public class CustomerController {
             return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.BAD_REQUEST);
     }
     @PostMapping(value = "/checkout/{userId}")
-    public boolean checkoutfunc(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable int userId){
+    public boolean checkoutFunction(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable int userId){
         return customerService.checkout(jwtToken,userId);
     }
 }

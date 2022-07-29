@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin
 public class AdminController {
+
     @Autowired
     AdminService adminService;
+
     @PostMapping(value = "/login",consumes = "application/json",produces = "application/json")
     public ResponseEntity<AdminLoginResponse> adminLogin(@RequestBody LoginRequest loginRequest){
         AdminLoginResponse adminLoginResponse=adminService.loginAuth(loginRequest);
@@ -38,7 +40,7 @@ public class AdminController {
     @DeleteMapping(value = "restaurant/delete/{restaurantId}",produces = "application/json")
     public ResponseEntity<RestaurantDeleteResponse> deleteRestaurant(@RequestHeader(name = "jwtToken") String jwtToken,@PathVariable("restaurantId") int restaurantId){
         RestaurantDeleteResponse restaurantDeleteResponse=new RestaurantDeleteResponse();
-        restaurantDeleteResponse=adminService.deleteRestaurant(restaurantId, jwtToken);
+        restaurantDeleteResponse = adminService.deleteRestaurant(restaurantId, jwtToken);
         if (restaurantDeleteResponse.isStatus()){
             return new ResponseEntity<>(restaurantDeleteResponse, HttpStatus.OK);
         }else{
@@ -47,8 +49,7 @@ public class AdminController {
     }
 
     @GetMapping(value = "/viewallorders", produces = "application/json")
-    public ResponseEntity<ViewAllOrdersAdminResponse> viewAllOrders(@RequestHeader(name = "jwtToken")
-                                                                        String jwtToken){
+    public ResponseEntity<ViewAllOrdersAdminResponse> viewAllOrders(@RequestHeader(name = "jwtToken") String jwtToken){
 
         ViewAllOrdersAdminResponse viewAllOrdersAdminResponse = adminService.getAllOrder(jwtToken);
         if(viewAllOrdersAdminResponse.isStatus()){
