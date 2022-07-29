@@ -122,13 +122,14 @@ public class ManagerService {
     }
 
 
-    public DeleteItemResponse deleteItem(int itemId, int userId, String jwtToken) {
+    public DeleteItemResponse deleteItem(int itemId, String jwtToken) {
         Menu newItem = menuRepository.findByItemId(itemId);
         DeleteItemResponse deleteItemResponse = new DeleteItemResponse();
+        User newUser = userRepository.findByJwtToken(jwtToken);
 
-        if (jwtToken.equals(userRepository.findByUserId(userId).getJwtToken()) == false) {
+        if(newUser == null){
             deleteItemResponse.setStatus(false);
-            deleteItemResponse.setMessage("jwtToken invalid");
+            deleteItemResponse.setMessage("jwtToken invalid.");
 
             return deleteItemResponse;
         }

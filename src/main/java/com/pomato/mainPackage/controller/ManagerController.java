@@ -28,11 +28,11 @@ public class ManagerController {
     }
 
 
-    @DeleteMapping(value = "/deleteitem/{restaurantId}/{itemId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<DeleteItemResponse> deleteItemResponseResponse(@PathVariable("restaurantId") int restaurantId, @PathVariable("itemId") int itemId, @RequestHeader(name = "jwtToken") String jwtToken, @RequestBody DeleteItemRequest deleteItemRequest) {
+    @DeleteMapping(value = "/deleteitem/{restaurantId}/{itemId}", produces = "application/json")
+    public ResponseEntity<DeleteItemResponse> deleteItemResponseResponse(@PathVariable("restaurantId") int restaurantId, @PathVariable("itemId") int itemId, @RequestHeader(name = "jwtToken") String jwtToken) {
 
 
-        DeleteItemResponse deleteItemResponse = managerService.deleteItem(itemId, deleteItemRequest.getUserId(), jwtToken);
+        DeleteItemResponse deleteItemResponse = managerService.deleteItem(itemId, jwtToken);
         if (deleteItemResponse.isStatus()) {
             return new ResponseEntity<>(deleteItemResponse, HttpStatus.OK);
         } else {
