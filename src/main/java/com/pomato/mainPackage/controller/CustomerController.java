@@ -33,7 +33,7 @@ public class CustomerController {
             return new ResponseEntity<>(customerSignupResponse, HttpStatus.BAD_REQUEST);
         }
     }
-    @PostMapping(value = "/placeOrder", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/placeorder", consumes = "application/json", produces = "application/json")
     public ResponseEntity<PlaceOrderResponse> placeOrderCustomer(@RequestHeader(name = "jwtToken")String jwtToken
             , @RequestBody PlaceOrder placeOrder) throws JsonProcessingException {
         PlaceOrderResponse placeOrderResponse=customerService.placeOrder(jwtToken,placeOrder);
