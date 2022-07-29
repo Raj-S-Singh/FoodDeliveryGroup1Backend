@@ -71,7 +71,7 @@ public class CustomerService {
     }
 
     public PlaceOrderResponse placeOrder(String jwtToken, PlaceOrder placeOrder) throws JsonProcessingException {
-        FoodOrders order=new FoodOrders();
+        FoodOrders foodOrder=new FoodOrders();
         Payment payment=new Payment();
         User user=userRepository.findByUserId(placeOrder.getUserId());
         PlaceOrderResponse placeOrderResponse = new PlaceOrderResponse();
@@ -81,21 +81,21 @@ public class CustomerService {
             return placeOrderResponse;
         }
         else {
-            order.setUserId(placeOrder.getUserId());
-            order.setAddress(placeOrder.getAddress());
-            order.setRestaurantId(placeOrder.getRestaurantId());
+            foodOrder.setUserId(placeOrder.getUserId());
+            foodOrder.setAddress(placeOrder.getAddress());
+            foodOrder.setRestaurantId(placeOrder.getRestaurantId());
             ObjectMapper objectMapper=new ObjectMapper();
-            order.setListOfItems(objectMapper.writeValueAsString(placeOrder.getListOfItems()));
-            order.setOrderStatus("Order Placed");
+            foodOrder.setListOfItems(objectMapper.writeValueAsString(placeOrder.getListOfItems()));
+            foodOrder.setOrderStatus("Order Placed");
             String st = String.valueOf(Timestamp.from(Instant.now()));
-            order.setTimeStamp(st);
-            FoodOrders temp = foodOrderRepository.save(order);
+            foodOrder.setTimeStamp(st);
+            FoodOrders temp = foodOrderRepository.save(foodOrder);
             if (temp == null) {
                 placeOrderResponse.setMessage("Order saving failed");
                 placeOrderResponse.setStatus(false);
                 return placeOrderResponse;
             }
-            payment.setOrderId(order.getOrderId());
+            payment.setOrderId(foodOrder.getOrderId());
             payment.setTimeStamp(st);
             payment.setRestaurantId(placeOrder.getRestaurantId());
             payment.setPaymentMethod(placeOrder.getPaymentMethod());
@@ -109,6 +109,7 @@ public class CustomerService {
             }
             placeOrderResponse.setMessage("Order Placed and Payment Successful");
             placeOrderResponse.setStatus(true);
+            placeOrderResponse.setFoodOrders(foodOrder);
             return placeOrderResponse;
         }
     }
