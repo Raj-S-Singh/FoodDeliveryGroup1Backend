@@ -92,7 +92,7 @@ public class ManagerService {
         Menu currentItem = menuRepository.findByName(request.getName());
         Menu managerItem = new Menu();
         AddItemResponse response = new AddItemResponse();
-        if (jwtToken.equals(userRepository.findByUserId(request.getUserId()).getJwtToken()) == false) {
+        if (userRepository.findByJwtToken(jwtToken)==null) {
             response.setStatus(false);
             response.setMessage("jwtToken Invalid.");
         } else if (currentItem != null && currentItem.getRestaurantId()==restaurantId) {
@@ -149,7 +149,7 @@ public class ManagerService {
     public UpdateItemResponse update(UpdateItemRequest item, String jwtToken) {
         UpdateItemResponse updateItemResponse = new UpdateItemResponse();
 
-        if (jwtToken.equals((userRepository.findByUserId(item.getUserId())).getJwtToken()) == false) {
+        if (userRepository.findByJwtToken(jwtToken)==null) {
             updateItemResponse.setStatus(false);
             updateItemResponse.setMessage("jwtToken invalid");
 
