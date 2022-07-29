@@ -60,7 +60,7 @@ public class AdminController {
         }
 
     }
-    @GetMapping(value = "/viewAllPayments",produces = "application/json")
+    @GetMapping(value = "/viewallpayments",produces = "application/json")
     public ResponseEntity<PaymentAllResponse> paymentAll(@RequestHeader(name = "jwtToken") String jwtToken){
         PaymentAllResponse paymentAllResponse=adminService.getAllPayments(jwtToken);
         if (paymentAllResponse.isStatus())
