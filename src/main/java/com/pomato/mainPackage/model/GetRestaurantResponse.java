@@ -7,15 +7,6 @@ public class GetRestaurantResponse {
     private String message;
     private List<Restaurant> allRestaurant;
     private boolean status;
-    private String contactNumber;
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }
 
     public boolean isStatus() {
         return status;

@@ -121,7 +121,6 @@ public class CustomerService {
         if(user!=null){
             getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
             getRestaurantResponse.setMessage("Successfully executed");
-            getRestaurantResponse.setContactNumber(user.getContactNumber());
             getRestaurantResponse.setStatus(true);
             return getRestaurantResponse;
         }
