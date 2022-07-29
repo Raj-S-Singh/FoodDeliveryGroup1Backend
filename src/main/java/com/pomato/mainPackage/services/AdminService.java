@@ -45,7 +45,7 @@ public class AdminService {
             userRepository.save(user);
             adminLoginResponse.setJwtToken(user.getJwtToken());
             adminLoginResponse.setName(user.getName());
-            if(user.getRole() == "manager"){
+            if(user.getRole().equals("manager")){
                 int restaurantId = restaurantRepository.findByUserId(user.getUserId()).getRestaurantId();
                 adminLoginResponse.setRestaurantId(restaurantId);
             }
