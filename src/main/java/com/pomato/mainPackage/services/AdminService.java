@@ -45,6 +45,10 @@ public class AdminService {
             userRepository.save(user);
             adminLoginResponse.setJwtToken(user.getJwtToken());
             adminLoginResponse.setName(user.getName());
+            if(user.getRole() == "manager"){
+                int restaurantId = restaurantRepository.findByUserId(user.getUserId()).getRestaurantId();
+                adminLoginResponse.setRestaurantId(restaurantId);
+            }
         }
         else {
             adminLoginResponse.setMessage("Login failed, wrong password");
