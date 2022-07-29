@@ -11,7 +11,7 @@ public class FoodOrders {
     private int userId;
     private String address;
     private int restaurantId;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT",length = 10000)
     @Lob
     private String listOfItems;
     private String orderStatus;
