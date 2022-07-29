@@ -117,7 +117,7 @@ public class CustomerService {
     public GetRestaurantResponse getAllRestaurant(String token){
         GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
         User user=userRepository.findByJwtToken(token);
-        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+        if(user!=null){
             getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
             getRestaurantResponse.setMessage("Successfully executed");
             getRestaurantResponse.setStatus(true);
@@ -134,7 +134,7 @@ public class CustomerService {
     public ViewMenuResponse viewRestaurantMenu(String jwtToken,int restaurantId){
         ViewMenuResponse viewMenuResponse=new ViewMenuResponse();
         User user=userRepository.findByJwtToken(jwtToken);
-        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+        if(user!=null){
             viewMenuResponse.setStatus(true);
             viewMenuResponse.setMessage("Successfully Executed");
             viewMenuResponse.setItems(menuRepository.findRestaurantMenu(restaurantId));
