@@ -2,6 +2,7 @@ package com.pomato.mainPackage.services;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.pomato.mainPackage.model.UploadResponse;
 import com.pomato.mainPackage.model.User;
 import com.pomato.mainPackage.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,23 +21,23 @@ public class UploadService {
 
     @Autowired
     private UserRepository userRepository;
-    public String uploadFile(MultipartFile file, String jwtToken) {
+
+
+    public UploadResponse uploadFile(MultipartFile file) {
+        UploadResponse response = new UploadResponse();
         try {
-            User user = userRepository.findByJwtToken(jwtToken);
-            if(user == null) {
-                return "";
-            }
-            else if(user.getRole().equalsIgnoreCase("manager")) {
                 File uploadedFile = convertMultiPartToFile(file);
                 Map uploadResult = cloudinaryConfig.uploader().upload(uploadedFile, ObjectUtils.emptyMap());
                 uploadedFile.delete();
-                return  uploadResult.get("url").toString();
-            }
-            else{
-                return "F";
-            }
+                response.setMessage("Success");
+                response.setStatus(true);
+                response.setUrl(uploadResult.get("url").toString());
+                return response;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            response.setMessage("Error");
+            response.setStatus(false);
+            response.setUrl("");
+            return response;
         }
     }
 
