@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant,Integer> {
     Restaurant findByRestaurantId(int restaurantId);
+
+    Restaurant findByUserId(int userid);
     @Query(value = "SELECT r FROM Restaurant r")
     List<Restaurant> getAllRestaurants();
 }
