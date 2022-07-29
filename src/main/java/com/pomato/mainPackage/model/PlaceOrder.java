@@ -7,7 +7,6 @@ public class PlaceOrder {
     private float amount;
     private String paymentMethod;
 
-
     private List<ItemListReturned> listOfItems;
     private int restaurantId;
     private int userId;

@@ -65,7 +65,7 @@ public class CustomerController {
             return new ResponseEntity<ViewMenuResponse>(viewMenuResponse,HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping(value = "/viewOrdersCustomer/{userId}",produces = "application/json")
+    @GetMapping(value = "/vieworderscustomer/{userId}",produces = "application/json")
     public ResponseEntity<ViewOrderCustomerResponse> getOrders(@RequestHeader(name = "jwtToken") String jwtToken,
                                                                @PathVariable int userId){
         ViewOrderCustomerResponse viewOrderCustomerResponse=customerService.viewOrders(jwtToken,userId);
