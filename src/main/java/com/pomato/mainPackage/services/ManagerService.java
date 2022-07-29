@@ -95,9 +95,9 @@ public class ManagerService {
         if (jwtToken.equals(userRepository.findByUserId(request.getUserId()).getJwtToken()) == false) {
             response.setStatus(false);
             response.setMessage("jwtToken Invalid.");
-        } else if (currentItem != null) {
+        } else if (currentItem != null && currentItem.getRestaurantId()==restaurantId) {
             response.setStatus(false);
-            response.setMessage("Item already exists in the database");
+            response.setMessage("Item already exists in the restaurant.");
         } else {
             managerItem.setRestaurantId(restaurantId);
             managerItem.setItemImage(request.getItemImage());
