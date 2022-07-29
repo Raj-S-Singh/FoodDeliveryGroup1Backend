@@ -1,5 +1,6 @@
 package com.pomato.mainPackage.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class CustomerController {
     }
     @PostMapping(value = "/placeOrder", consumes = "application/json", produces = "application/json")
     public ResponseEntity<PlaceOrderResponse> placeOrderCustomer(@RequestHeader(name = "jwtToken")String jwtToken
-            , @RequestBody PlaceOrder placeOrder){
+            , @RequestBody PlaceOrder placeOrder) throws JsonProcessingException {
         PlaceOrderResponse placeOrderResponse=customerService.placeOrder(jwtToken,placeOrder);
         if (placeOrderResponse.isStatus()){
             return new ResponseEntity<>(placeOrderResponse,HttpStatus.OK);
@@ -75,7 +76,7 @@ public class CustomerController {
             return new ResponseEntity<>(viewOrderCustomerResponse,HttpStatus.BAD_REQUEST);
     }
     @PostMapping(value = "/checkout/{userId}")
-    public boolean checkoutfunc(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable int userId){
+    public boolean checkoutFunction(@RequestHeader(name="jwtToken") String jwtToken,@PathVariable int userId){
         return customerService.checkout(jwtToken,userId);
     }
 }

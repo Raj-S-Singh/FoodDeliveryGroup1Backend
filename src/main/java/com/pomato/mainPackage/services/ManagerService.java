@@ -95,9 +95,9 @@ public class ManagerService {
         if (jwtToken.equals(userRepository.findByUserId(request.getUserId()).getJwtToken()) == false) {
             response.setStatus(false);
             response.setMessage("jwtToken Invalid.");
-        } else if (currentItem != null) {
+        } else if (currentItem != null && currentItem.getRestaurantId()==restaurantId) {
             response.setStatus(false);
-            response.setMessage("Item already exists in the database");
+            response.setMessage("Item already exists in the restaurant.");
         } else {
             managerItem.setRestaurantId(restaurantId);
             managerItem.setItemImage(request.getItemImage());
@@ -122,13 +122,14 @@ public class ManagerService {
     }
 
 
-    public DeleteItemResponse deleteItem(int itemId, int userId, String jwtToken) {
+    public DeleteItemResponse deleteItem(int itemId, String jwtToken) {
         Menu newItem = menuRepository.findByItemId(itemId);
         DeleteItemResponse deleteItemResponse = new DeleteItemResponse();
+        User newUser = userRepository.findByJwtToken(jwtToken);
 
-        if (jwtToken.equals(userRepository.findByUserId(userId).getJwtToken()) == false) {
+        if(newUser == null){
             deleteItemResponse.setStatus(false);
-            deleteItemResponse.setMessage("jwtToken invalid");
+            deleteItemResponse.setMessage("jwtToken invalid.");
 
             return deleteItemResponse;
         }

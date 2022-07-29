@@ -1,5 +1,7 @@
 package com.pomato.mainPackage.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pomato.mainPackage.model.*;
 import com.pomato.mainPackage.repository.*;
 import com.pomato.mainPackage.model.AddItemResponse;
@@ -68,8 +70,8 @@ public class CustomerService {
         return customerSignupResponse;
     }
 
-    public PlaceOrderResponse placeOrder(String jwtToken, PlaceOrder placeOrder) {
-        FoodOrders order=new FoodOrders();
+    public PlaceOrderResponse placeOrder(String jwtToken, PlaceOrder placeOrder) throws JsonProcessingException {
+        FoodOrders foodOrder=new FoodOrders();
         Payment payment=new Payment();
         User user=userRepository.findByUserId(placeOrder.getUserId());
         PlaceOrderResponse placeOrderResponse = new PlaceOrderResponse();
@@ -79,20 +81,21 @@ public class CustomerService {
             return placeOrderResponse;
         }
         else {
-            order.setUserId(placeOrder.getUserId());
-            order.setAddress(placeOrder.getAddress());
-            order.setRestaurantId(placeOrder.getRestaurantId());
-            order.setListOfItems(placeOrder.getListOfItems());
-            order.setOrderStatus("Order Placed");
+            foodOrder.setUserId(placeOrder.getUserId());
+            foodOrder.setAddress(placeOrder.getAddress());
+            foodOrder.setRestaurantId(placeOrder.getRestaurantId());
+            ObjectMapper objectMapper=new ObjectMapper();
+            foodOrder.setListOfItems(objectMapper.writeValueAsString(placeOrder.getListOfItems()));
+            foodOrder.setOrderStatus("Order Placed");
             String st = String.valueOf(Timestamp.from(Instant.now()));
-            order.setTimeStamp(st);
-            FoodOrders temp = foodOrderRepository.save(order);
+            foodOrder.setTimeStamp(st);
+            FoodOrders temp = foodOrderRepository.save(foodOrder);
             if (temp == null) {
                 placeOrderResponse.setMessage("Order saving failed");
                 placeOrderResponse.setStatus(false);
                 return placeOrderResponse;
             }
-            payment.setOrderId(order.getOrderId());
+            payment.setOrderId(foodOrder.getOrderId());
             payment.setTimeStamp(st);
             payment.setRestaurantId(placeOrder.getRestaurantId());
             payment.setPaymentMethod(placeOrder.getPaymentMethod());
@@ -106,6 +109,7 @@ public class CustomerService {
             }
             placeOrderResponse.setMessage("Order Placed and Payment Successful");
             placeOrderResponse.setStatus(true);
+            placeOrderResponse.setFoodOrders(foodOrder);
             return placeOrderResponse;
         }
     }
@@ -114,7 +118,7 @@ public class CustomerService {
     public GetRestaurantResponse getAllRestaurant(String token){
         GetRestaurantResponse getRestaurantResponse=new GetRestaurantResponse();
         User user=userRepository.findByJwtToken(token);
-        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+        if(user!=null){
             getRestaurantResponse.setAllRestaurant(restaurantRepository.getAllRestaurants());
             getRestaurantResponse.setMessage("Successfully executed");
             getRestaurantResponse.setStatus(true);
@@ -131,7 +135,7 @@ public class CustomerService {
     public ViewMenuResponse viewRestaurantMenu(String jwtToken,int restaurantId){
         ViewMenuResponse viewMenuResponse=new ViewMenuResponse();
         User user=userRepository.findByJwtToken(jwtToken);
-        if(user!=null && user.getRole().equalsIgnoreCase("Customer")){
+        if(user!=null){
             viewMenuResponse.setStatus(true);
             viewMenuResponse.setMessage("Successfully Executed");
             viewMenuResponse.setItems(menuRepository.findRestaurantMenu(restaurantId));
