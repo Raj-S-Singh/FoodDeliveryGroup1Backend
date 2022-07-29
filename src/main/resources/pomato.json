@@ -90,17 +90,16 @@
     "endpoint": "restaurants",
     "path": "/restaurants",
     "method": "GET",
-    "response": [
-      {
+    "response": {
         "status": "success",
         "response-data": {
           "http-status": 200,
+          "message": "Successfully executed.",
           "restaurantList": {
-            "type": "Array of restaurants"
+            "type": "List of restaurants"
           }
         }
-      }
-    ]
+    }
   },
   {
     "endpoint": "restaurantItems",
@@ -111,8 +110,9 @@
         "status": "success",
         "response-data": {
           "http-status": 200,
+          "message": "Successfully executed.",
           "itemList": {
-            "type": "Array of items"
+            "type": "List of items"
           }
         }
       }
@@ -143,7 +143,12 @@
       },
       "listOfItems": {
         "type": "Array of items"
-      }
+      },
+      "restaurantId": {
+        "type": "Number"
+      },
+      "userId": {},
+      "type": "Number"
     }
   },
   {
@@ -190,7 +195,7 @@
         "max": 255,
         "required": true
       },
-      "item-image": {
+      "restaurant-image": {
         "type": "Longblob"
       }
     },
@@ -237,10 +242,14 @@
       },
       "item-image": {
         "type": "Longblob"
+      },
+      "userId": {
+        "type": "Number",
+        "required": true
       }
     },
     "response": {
-      "data": "item-object"
+      "data": "addItemResponse-object"
     }
   },
   {
@@ -269,6 +278,15 @@
       },
       "item-image": {
         "type": "Longblob"
+      },
+      "itemId": {
+        "type": "Number"
+      },
+      "userId": {
+        "type": "Number"
+      },
+      "restaurantId": {
+        "type": "Number"
       }
     },
     "response": {
@@ -288,8 +306,16 @@
     }
   },
   {
-    "endpoint": "viewOrders",
-    "path": "/viewOrders/{restaurantId}",
+    "endpoint": "viewordersmanager",
+    "path": "/viewordersmanager/{userId}/{restaurantId}",
+    "method": "GET",
+    "response": {
+      "data": "List of orders"
+    }
+  },
+  {
+    "endpoint": "vieworderscustomer",
+    "path": "/vieworderscustomer/{userId}",
     "method": "GET",
     "response": {
       "data": "List of orders"
@@ -314,5 +340,73 @@
       "http-status": 200,
       "message": "Success"
     }
+  },
+  {
+    "endpoint": "logout",
+    "path": "/logout/{userId}",
+    "method": "PUT",
+    "response": [
+      {
+        "status": "success",
+        "response-data": {
+          "http-status": 200,
+          "message": "sign successful"
+        }
+      },
+      {
+        "status": "client-error",
+        "response-data": {
+          "http-status": 400,
+          "message": "bad request"
+        }
+      }
+    ]
+  },
+  {
+    "endpoint": "viewAllOrders",
+    "path": "viewallorders",
+    "method": "GET",
+    "response": [
+      {
+        "status": "success",
+        "response-data": {
+          "http-status": 200,
+          "message": "sign successful"
+        }
+      },
+      {
+        "status": "client-error",
+        "response-data": {
+          "http-status": 400,
+          "message": "bad request"
+        }
+      }
+    ]
+  },
+  {
+    "endpoint": "viewAllPayments",
+    "path": "viewallpayments",
+    "method": "GET",
+    "response": [
+      {
+        "status": "success",
+        "response-data": {
+          "http-status": 200,
+          "message": "sign successful"
+        }
+      },
+      {
+        "status": "client-error",
+        "response-data": {
+          "http-status": 400,
+          "message": "bad request"
+        }
+      }
+    ]
+  },
+  {
+    "endpoint": "chceckout",
+    "path": "/checkout/{userId}",
+    "method": "POST"
   }
 ]
