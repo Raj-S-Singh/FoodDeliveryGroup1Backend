@@ -50,7 +50,7 @@ public class ManagerController {
         return new ResponseEntity<AddItemResponse>(addItemResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping(value = "/updateitem/{restaurantId}/{itemId}", produces = "application/json")
+    @PutMapping(value = "/updateitem/{restaurantId}/{itemId}",consumes = "application/json", produces = "application/json")
     public ResponseEntity<UpdateItemResponse> updateItem(@RequestBody UpdateItemRequest item, @PathVariable int restaurantId,
                                                          @PathVariable int itemId, @RequestHeader("jwtToken") String jwtToken){
 
