@@ -174,7 +174,7 @@ public class ManagerService {
 
             updateItemResponse.setStatus(true);
             updateItemResponse.setMessage("Item updated");
-
+            updateItemResponse.setMenu(updatedItem);
             return updateItemResponse;
         }
     }
